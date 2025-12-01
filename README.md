@@ -198,4 +198,4 @@ Kindly \
 Claude 4.5 Sonet and \
 GPT 5.1
 
-<img src="assets/logo/tb-logo-200.png" alt="AxiumForge logo" width="200" height="200">
+<img src="assets/logo/tb-logo-200-transparent.png" alt="AxiumForge logo" width="200" height="200">
