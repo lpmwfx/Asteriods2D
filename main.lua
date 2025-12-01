@@ -5,6 +5,9 @@
     This file contains the core LÖVE callbacks and initializes all game systems.
 ]]
 
+-- AxForge standard modules
+local AxShot = require("axforge.axshot")
+
 -- Module dependencies
 local GameState = require("src.core.game_state")
 local Physics = require("src.core.physics")
@@ -27,6 +30,17 @@ local ui = nil
 function love.load()
     -- Set random seed
     math.randomseed(os.time())
+
+    -- Initialize AxForge services
+    AxShot.init{
+        instanceId = "asteroids_sdf_dev",
+        config = {
+            hotkey = "f12",
+            folder = "screenshots",
+            prefix = "axforge",
+            addTimestamp = true
+        }
+    }
 
     -- Initialize graphics settings
     love.graphics.setDefaultFilter("linear", "linear")
@@ -97,6 +111,10 @@ end
     @param key - The key that was pressed
 ]]
 function love.keypressed(key, scancode, isrepeat)
+    -- AxForge services
+    AxShot.handleKey(key)
+
+    -- Game input
     input:keypressed(key, scancode, isrepeat)
 
     -- Global controls

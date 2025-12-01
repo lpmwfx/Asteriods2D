@@ -6,11 +6,13 @@ Et moderne, stiliseret Asteroids-inspireret arcade shooter spil, hvor **al grafi
 ![Language](https://img.shields.io/badge/Language-Lua-000080?logo=lua)
 ![Physics](https://img.shields.io/badge/Physics-Box2D-green)
 
-## 🎮 Gameplay
+## 🎮 Sådan Starter Du Spillet
 
-Undgå meteorer i rummet, skyd med din penetrerende railgun, og beskyt den indre zone!
+1. **Start spillet** med kommandoen `love .`
+2. **Tryk SPACE** på hovedmenuen for at starte
+3. **Undgå meteorer**, skyd med railgun, og beskyt den indre zone!
 
-### Kontroller
+### Kontroller (I spillet)
 - **←/→ Piltaster**: Roter rumskib
 - **↑ Piltast**: Thrust fremad
 - **SPACE**: Affyr railgun
@@ -27,9 +29,13 @@ Undgå meteorer i rummet, skyd med din penetrerende railgun, og beskyt den indre
 ## 🚀 Kom I Gang
 
 ### Krav
-- [LÖVE 11.5](https://love2d.org/) eller nyere
+- [LÖVE 11.5](https://love2d.org/) eller nyere installeret på din computer
 
-### Sådan køres spillet
+### Trin-for-trin Guide
+
+1. **Download/klon projektet**
+2. **Åbn terminal** i projektmappen
+3. **Kør kommandoen:**
 
 **macOS / Linux:**
 ```bash
@@ -37,12 +43,16 @@ love .
 ```
 
 **Windows:**
-Træk projektmappen på `love.exe` eller:
+Træk projektmappen på `love.exe` eller åbn kommandoprompt og kør:
 ```bash
 love.exe .
 ```
 
-**Alternativt** kan du oprette en `.love` fil:
+4. **Tryk SPACE** på hovedmenuen for at starte spillet!
+
+### Alternativ: Opret .love fil
+
+Hvis du vil dele spillet:
 ```bash
 zip -r AxiumForge.love .
 love AxiumForge.love
