@@ -6,6 +6,12 @@
     - Central sun with multi-layer glow
     - Orbiting planets at different speeds
     - Parallax movement based on ship position (future)
+
+    IMPORTANT - Perspective:
+    - Solar system should be viewed from a 20-30 degree angle from above
+    - NOT directly top-down view
+    - Planets remain round (circles), but orbits should be elliptical
+    - Create depth feeling with scaling and layering
 ]]
 
 local DrawSDF = require("src.render.draw_sdf")

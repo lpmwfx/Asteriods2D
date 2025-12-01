@@ -135,6 +135,10 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
   - [ ] Langsom orbital animation (rotation_speed per planet)
   - [ ] Parallax effekt (baggrund bev�ger sig lidt med ship)
 - [ ] Farvegradienter for planeter
+- [ ] **VIGTIGT**: Solsystem skal ses fra 20-30 graders vinkel oppefra (ikke direkte top-down)
+  - [ ] Planeter forbliver runde SDF circles
+  - [ ] Orbits skal tegnes som ellipser (perspective projection)
+  - [ ] Giv dybdefølelse med scaling og layering
 
 ### 12. Protected Zone
 - [ ] Tegn indre beskyttet zone (SDF circle outline, ikke filled)

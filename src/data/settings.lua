@@ -121,7 +121,12 @@ local Settings = {
             }
         },
 
-        parallaxFactor = 0.1  -- Ship movement affects background
+        parallaxFactor = 0.1,  -- Ship movement affects background
+
+        -- Perspective settings (20-30 degree view from above)
+        perspectiveAngle = 25,  -- Degrees from top-down (0 = top-down, 90 = side view)
+        orbitEllipseRatio = 0.4,  -- How much orbits are compressed (0.5 = 45 deg perspective)
+        depthScaleFactor = 0.3  -- Size reduction for objects further back
     },
 
     -- UI settings
