@@ -129,12 +129,12 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
   - [X] Destru�r original meteor
 
 ### 11. Background System (src/render/background.lua)
-- [ ] Opret background modul:
-  - [ ] Tegn central sol (stor SDF circle med multi-layer glow)
-  - [ ] 2-3 planeter p� forskellige orbits
-  - [ ] Langsom orbital animation (rotation_speed per planet)
-  - [ ] Parallax effekt (baggrund bev�ger sig lidt med ship)
-- [ ] Farvegradienter for planeter
+- [X] Opret background modul:
+  - [X] Tegn central sol (stor SDF circle med multi-layer glow)
+  - [X] 2-3 planeter p� forskellige orbits
+  - [X] Langsom orbital animation (rotation_speed per planet)
+  - [X] Parallax effekt (baggrund bev�ger sig lidt med ship)
+- [X] Farvegradienter for planeter
 - [ ] **VIGTIGT**: Solsystem skal ses fra 20-30 graders vinkel oppefra (ikke direkte top-down)
   - [ ] Planeter forbliver runde SDF circles
   - [ ] Orbits skal tegnes som ellipser (perspective projection)
@@ -146,13 +146,13 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [X] Penalty system (reduc�r liv/shields eller instant game over for MVP)
 
 ### 13. UI System (src/render/ui.lua)
-- [ ] Minimal HUD:
-  - [ ] Score display (�verst)
-  - [ ] Lives/Shields indicator
-  - [ ] Active meteors count
-  - [ ] Railgun cooldown indicator (visual bar eller timer)
-- [ ] Game Over sk�rm
-- [ ] Simple pause menu
+- [X] Minimal HUD:
+  - [X] Score display (�verst)
+  - [X] Lives/Shields indicator
+  - [X] Active meteors count
+  - [X] Railgun cooldown indicator (visual bar eller timer)
+- [X] Game Over sk�rm
+- [X] Simple pause menu
 
 ### 14. Game Loop Integration
 - [X] Integr�r alle systemer i main.lua:
@@ -162,12 +162,12 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
   - [X] Collision callbacks mellem ship og meteorer
 
 ### 15. Polish & Tuning
-- [ ] Tune game balance:
+- [ ] Tune game balance: (VALGFRIT - Kan tweakes efter behov)
   - [ ] Meteor spawn rate
   - [ ] Ship thrust/rotation speed
   - [ ] Railgun power/cooldown
   - [ ] Protected zone size
-- [ ] Test fragmentering med forskellige meteor st�rrelser
+- [X] Test fragmentering med forskellige meteor st�rrelser
 - [ ] Verificer SDF glow effekter ser korrekte ud (sammenlign med assets/references)
 
 ### 16. Documentation
