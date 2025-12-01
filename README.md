@@ -1,7 +1,5 @@
 # AxiumForge - SDF Asteroids
 
-<img src="assets/logo/tb-logo-200.png" alt="AxiumForge logo" width="200" height="200">
-
 A modern, stylized Asteroids-inspired arcade shooter where **all graphics are generated mathematically from SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). No bitmap assets—everything is drawn procedurally.
 
 ![Current build (AxShot 2025-12-01)](assets/history/axforge_2025-12-01_15-52-47.png)
@@ -199,3 +197,5 @@ Kindly \
 **Twisted Brain** \
 Claude 4.5 Sonet and \
 GPT 5.1
+
+<img src="assets/logo/tb-logo-200.png" alt="AxiumForge logo" width="200" height="200">
