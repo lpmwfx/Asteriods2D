@@ -53,6 +53,9 @@ function GameState.new(physics, input)
     -- Protected zone
     self.protectedZoneRadius = 150
 
+    -- Deferred actions (to avoid Box2D locking issues)
+    self.deferredRespawn = false
+
     -- Register collision callbacks
     self:setupCollisionCallbacks()
 
@@ -140,6 +143,12 @@ function GameState:updatePlaying(dt)
 
     -- Meteor spawning
     self:updateSpawning(dt)
+
+    -- Handle deferred actions (after physics update)
+    if self.deferredRespawn then
+        self.deferredRespawn = false
+        self:respawnShip()
+    end
 
     -- Check game over conditions
     if self.lives <= 0 then
@@ -382,8 +391,8 @@ function GameState:loseLife()
     print("Life lost! Remaining: " .. self.lives)
 
     if self.lives > 0 then
-        -- Respawn ship
-        self:respawnShip()
+        -- Mark for respawn (deferred to avoid Box2D locking)
+        self.deferredRespawn = true
     else
         -- Game over
         self:gameOver()
