@@ -24,14 +24,32 @@ local input = nil
 local background = nil
 local ui = nil
 
+-- Auto-screenshot state (for programmatic screenshots)
+local autoScreenshot = {
+    enabled = false,
+    delay = 2.0,  -- Seconds to wait before taking screenshot
+    timer = 0,
+    taken = false
+}
+
 --[[
     love.load()
     Called once at the start of the game.
     Initialize all game systems here.
 ]]
-function love.load()
+function love.load(arg)
     -- Set random seed
     math.randomseed(os.time())
+
+    -- Parse command-line arguments
+    if arg then
+        for _, v in ipairs(arg) do
+            if v == "--screenshot" or v == "-s" then
+                autoScreenshot.enabled = true
+                print("[Auto-Screenshot] Enabled - will capture after " .. autoScreenshot.delay .. " seconds")
+            end
+        end
+    end
 
     -- Initialize AxForge services
     AxShot.init{
@@ -74,6 +92,19 @@ end
     @param dt - Delta time in seconds since last frame
 ]]
 function love.update(dt)
+    -- Auto-screenshot timer
+    if autoScreenshot.enabled and not autoScreenshot.taken then
+        autoScreenshot.timer = autoScreenshot.timer + dt
+        if autoScreenshot.timer >= autoScreenshot.delay then
+            print("[Auto-Screenshot] Taking screenshot now...")
+            local filepath = AxShot.capture("auto")
+            print("[Auto-Screenshot] Saved to: " .. filepath)
+            autoScreenshot.taken = true
+            -- Close app after screenshot
+            love.event.quit()
+        end
+    end
+
     -- Update input state
     input:update(dt)
 

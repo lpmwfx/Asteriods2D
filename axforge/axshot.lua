@@ -70,11 +70,6 @@ local function baseFolder()
 
     local fullPath = projectPath .. "/" .. base
 
-    -- DEBUG: Print paths
-    print("[AxShot DEBUG] projectPath (pwd): " .. projectPath)
-    print("[AxShot DEBUG] base: " .. base)
-    print("[AxShot DEBUG] fullPath: " .. fullPath)
-
     -- Create directory using OS command (love.filesystem can't create outside save dir)
     os.execute('mkdir -p "' .. fullPath .. '"')
 
@@ -198,9 +193,6 @@ function AxShot.capture(tag, meta)
     local folder = baseFolder()
     local filename = buildFilename(tag)
     local filepath = folder .. "/" .. filename
-
-    -- DEBUG: Print complete filepath
-    print("[AxShot DEBUG] Complete filepath: " .. filepath)
 
     if lovr then
         captureLovr(filepath)
