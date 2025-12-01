@@ -63,12 +63,15 @@ end
 local function baseFolder()
     local base = AxShot.config.folder or "screenshots"
 
-    -- Get absolute path to project directory
-    local projectPath = love.filesystem.getSourceBaseDirectory()
+    -- Get working directory (where love . was run from)
+    local handle = io.popen("pwd")
+    local projectPath = handle:read("*a"):gsub("\n$", "")
+    handle:close()
+
     local fullPath = projectPath .. "/" .. base
 
     -- DEBUG: Print paths
-    print("[AxShot DEBUG] projectPath: " .. projectPath)
+    print("[AxShot DEBUG] projectPath (pwd): " .. projectPath)
     print("[AxShot DEBUG] base: " .. base)
     print("[AxShot DEBUG] fullPath: " .. fullPath)
 
