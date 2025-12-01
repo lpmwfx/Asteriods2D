@@ -56,17 +56,18 @@ love.exe .
 
 If you want to share the game:
 ```bash
-zip -r AxiumForge.love .
-love AxiumForge.love
+zip -r AsteroidDefence2D.love .
+love AsteroidDefence2D.love
 ```
 
 ## 🚢 Release & Distribution (v0 baseline)
 
 - Tag a version (`v0.x.y`) and push the tag to trigger the GitHub Actions workflow in `.github/workflows/release.yml`.
-- Outputs: `AxiumForge-<version>.love`, Windows fused ZIP (`AxiumForge-windows-<version>.zip`), macOS app ZIP (`AxiumForge-macOS-<version>.zip`), and Linux AppImage (`AxiumForge-linux-<version>.AppImage`).
-- Windows: unzip and run `AxiumForge.exe` (allow SmartScreen).
-- macOS: unzip, drag `AxiumForge.app` to Applications; first launch may need right-click → Open because the app is unsigned.
-- Linux: `chmod +x AxiumForge-linux-<version>.AppImage && ./AxiumForge-linux-<version>.AppImage`; if Fuse2 is missing, install `libfuse2` (e.g., `sudo apt install libfuse2`) or extract with `--appimage-extract` and run `squashfs-root/AppRun`.
+- Public release name: **AsteroidDefence2D** (artifact filenames use this prefix).
+- Outputs: `AsteroidDefence2D-<version>.love`, Windows fused ZIP (`AsteroidDefence2D-windows-<version>.zip`), macOS app ZIP (`AsteroidDefence2D-macOS-<version>.zip`), and Linux AppImage (`AsteroidDefence2D-linux-<version>.AppImage`).
+- Windows: unzip and run `AsteroidDefence2D.exe` (allow SmartScreen).
+- macOS: unzip, drag `AsteroidDefence2D.app` to Applications; first launch may need right-click → Open because the app is unsigned (remove quarantine if macOS blocks it).
+- Linux: `chmod +x AsteroidDefence2D-linux-<version>.AppImage && ./AsteroidDefence2D-linux-<version>.AppImage`; if FUSE2 is unavailable, use the no-install fallback: `./AsteroidDefence2D-linux-<version>.AppImage --appimage-extract` then run `./squashfs-root/AppRun`.
 - Artifacts are attached automatically to the GitHub release created from the tag.
 - Web build is optional and manual (see `docs/RELEASE.md` for love.js guidance).
 
