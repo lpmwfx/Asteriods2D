@@ -6,12 +6,13 @@
 ]]
 
 local Settings = {
-    -- Screen dimensions
+    -- Screen dimensions (VIRTUAL RESOLUTION - FASE 2)
+    -- Game is designed for 1920x1080 and scales to any actual screen size
     screen = {
-        width = 1280,
-        height = 720,
-        centerX = 640,
-        centerY = 360
+        width = 1920,
+        height = 1080,
+        centerX = 960,
+        centerY = 540
     },
 
     -- Physics settings
@@ -47,7 +48,7 @@ local Settings = {
 
     -- Meteor spawning
     spawning = {
-        spawnRadius = 900,       -- Distance from center to spawn
+        spawnRadius = 1400,      -- Distance from center to spawn (scaled for 1920x1080)
         spawnInterval = 2.0,     -- Seconds between spawns
         maxMeteors = 10,         -- Maximum active meteors
         minVelocity = 30,        -- Minimum meteor speed
@@ -57,7 +58,7 @@ local Settings = {
 
     -- Protected zone
     protectedZone = {
-        radius = 150,            -- Inner zone radius
+        radius = 225,            -- Inner zone radius (scaled for 1920x1080)
         penaltyType = "instant", -- "instant" or "lives"
         livesLost = 1            -- Lives lost when meteor crosses
     },
@@ -94,28 +95,28 @@ local Settings = {
         }
     },
 
-    -- Background settings
+    -- Background settings (scaled for 1920x1080 virtual resolution)
     background = {
-        sunRadius = 80,
-        sunGlow = 40,
+        sunRadius = 120,
+        sunGlow = 60,
         planetCount = 3,
 
         planets = {
             {
-                radius = 25,
-                orbitRadius = 200,
+                radius = 38,
+                orbitRadius = 300,
                 orbitSpeed = 0.1,
                 color = {0.9, 0.7, 0.3}
             },
             {
-                radius = 35,
-                orbitRadius = 350,
+                radius = 52,
+                orbitRadius = 525,
                 orbitSpeed = 0.05,
                 color = {0.4, 0.6, 0.9}
             },
             {
-                radius = 20,
-                orbitRadius = 500,
+                radius = 30,
+                orbitRadius = 750,
                 orbitSpeed = 0.15,
                 color = {0.7, 0.3, 0.5}
             }

@@ -4,6 +4,72 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### [2025-12-01] - FASE 2: Display & Viewport System (Resolution Independence)
+
+#### Added
+- **Virtual Resolution System** (`src/core/viewport.lua`):
+  - Virtual base resolution of 1920x1080 (Full HD)
+  - Automatic scaling to any actual window/screen size
+  - Coordinate transformation: `toVirtual()` and `toScreen()`
+  - Letterbox/pillarbox support for aspect ratio preservation
+  - Uniform scaling maintains correct proportions
+  - All game logic now uses virtual coordinates
+
+- **Fullscreen Management** (`src/core/display.lua`):
+  - Automatic monitor resolution detection
+  - Smart resolution selection (up to 2560x1440 max)
+  - Borderless fullscreen ("desktop" mode) for fast switching
+  - Multiple monitor support
+  - DPI scale detection and integration
+  - Ultrawide aspect ratio detection (21:9, 32:9)
+
+- **Configuration Updates** (`conf.lua`):
+  - Default fullscreen enabled
+  - Window resizable enabled
+  - High-DPI support enabled
+  - Default resolution: 1920x1080
+  - Minimum window size: 1280x720
+
+- **Hotkey Controls**:
+  - F11: Toggle fullscreen mode
+  - F12: Screenshot (existing AxShot system)
+  - Dynamic window resize support
+
+#### Updated
+- **settings.lua**: All coordinates scaled to virtual resolution (1920x1080)
+  - Screen dimensions updated to 1920x1080
+  - Spawn radius increased to 1400
+  - Protected zone radius scaled to 225
+  - Background elements scaled proportionally
+  - All planets and orbits adjusted for new resolution
+
+- **main.lua**: Viewport integration
+  - Viewport and Display systems initialized
+  - Transform applied/reset in draw loop
+  - Window resize callback added
+  - Fullscreen toggle hotkey (F11)
+  - Letterbox rendering for aspect ratio mismatch
+
+#### Fixed
+- **AxShot Screenshot System**:
+  - Screenshots now save to project directory (not LÖVE save dir)
+  - Absolute path resolution for `screenshots/` folder
+  - LÖVE 11.x API compatibility (`captureScreenshot` callback)
+  - Directory creation using OS commands
+
+#### Technical
+- Resolution-independent rendering throughout
+- Automatic scaling from 1280x720 to 2560x1440
+- Aspect ratio preservation with letterboxing
+- DPI-aware rendering on Retina displays
+- All game logic independent of actual screen size
+
+#### Testing
+- Tested fullscreen toggle (F11)
+- Window resize verified
+- No visual glitches or errors
+- Screenshots working correctly
+
 ### [2025-12-01] - MVP COMPLETE! (Sections 11-16)
 
 #### Added

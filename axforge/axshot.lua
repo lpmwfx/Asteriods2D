@@ -66,14 +66,14 @@ local function baseFolder()
         base = base .. "/" .. AxShot.instance.id
     end
 
-    -- Create directory
-    if love and love.filesystem then
-        love.filesystem.createDirectory(base)
-    elseif lovr and lovr.filesystem then
-        lovr.filesystem.createDirectory(base)
-    end
+    -- Get absolute path to project directory
+    local projectPath = love.filesystem.getSourceBaseDirectory()
+    local fullPath = projectPath .. "/" .. base
 
-    return base
+    -- Create directory using OS command (love.filesystem can't create outside save dir)
+    os.execute('mkdir -p "' .. fullPath .. '"')
+
+    return fullPath
 end
 
 local function buildFilename(tag)
@@ -100,10 +100,11 @@ end
 ----------------------------------------------------------------
 
 local function captureLove(filepath)
-    local screenshot = love.graphics.newScreenshot()
-    local imageData = screenshot:newImageData()
-    imageData:encode("png", filepath)
-    print("[AxShot] Screenshot saved: " .. filepath)
+    -- LÖVE 11.x uses captureScreenshot with callback
+    love.graphics.captureScreenshot(function(imageData)
+        imageData:encode("png", filepath)
+        print("[AxShot] Screenshot saved: " .. filepath)
+    end)
 end
 
 ----------------------------------------------------------------

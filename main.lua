@@ -9,6 +9,8 @@
 local AxShot = require("axforge.axshot")
 
 -- Module dependencies
+local Viewport = require("src.core.viewport")
+local Display = require("src.core.display")
 local GameState = require("src.core.game_state")
 local Physics = require("src.core.physics")
 local Input = require("src.core.input")
@@ -47,6 +49,10 @@ function love.load()
     love.graphics.setLineStyle("smooth")
     love.graphics.setLineJoin("miter")
 
+    -- Initialize display and viewport systems (FASE 2)
+    Display:init()
+    Viewport:init()
+
     -- Initialize core systems
     physics = Physics.new()
     input = Input.new()
@@ -58,6 +64,8 @@ function love.load()
 
     print("AxiumForge - SDF Asteroids initialized successfully")
     print("Window size: " .. love.graphics.getWidth() .. "x" .. love.graphics.getHeight())
+    print("Virtual resolution: " .. Viewport.VIRTUAL_WIDTH .. "x" .. Viewport.VIRTUAL_HEIGHT)
+    print("Fullscreen: " .. tostring(Display.isFullscreen))
 end
 
 --[[
@@ -95,6 +103,12 @@ function love.draw()
     -- Clear screen with space background color
     love.graphics.clear(0.02, 0.02, 0.05, 1.0)
 
+    -- Draw letterbox/pillarbox bars if needed
+    Viewport:drawLetterbox()
+
+    -- Apply viewport transform for resolution-independent rendering
+    Viewport:applyTransform()
+
     -- Draw background (solar system with parallax)
     background:draw()
 
@@ -103,6 +117,9 @@ function love.draw()
 
     -- Draw UI overlay (score, shields, etc.)
     ui:draw()
+
+    -- Reset viewport transform
+    Viewport:resetTransform()
 end
 
 --[[
@@ -125,6 +142,13 @@ function love.keypressed(key, scancode, isrepeat)
     if key == "p" then
         gameState:togglePause()
     end
+
+    -- Fullscreen toggle (F11) - FASE 2
+    if key == "f11" then
+        Display:toggleFullscreen()
+        Viewport:updateDimensions()
+        print("Fullscreen: " .. tostring(Display.isFullscreen))
+    end
 end
 
 --[[
@@ -134,6 +158,19 @@ end
 ]]
 function love.keyreleased(key, scancode)
     input:keyreleased(key, scancode)
+end
+
+--[[
+    love.resize(w, h)
+    Called when the window is resized.
+    @param w - New window width
+    @param h - New window height
+]]
+function love.resize(w, h)
+    -- Update display and viewport systems
+    Display:handleResize(w, h)
+    Viewport:updateDimensions()
+    print("Window resized to: " .. w .. "x" .. h)
 end
 
 --[[
