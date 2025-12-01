@@ -1,41 +1,43 @@
 # AxiumForge - SDF Asteroids
 
-Et moderne, stiliseret Asteroids-inspireret arcade shooter spil, hvor **al grafik genereres matematisk fra SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). Ingen bitmap assets - alt tegnes proceduralt.
+A modern, stylized Asteroids-inspired arcade shooter where **all graphics are generated mathematically from SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). No bitmap assets—everything is drawn procedurally.
+
+![Current build (AxShot 2025-12-01)](assets/history/axforge_2025-12-01_15-52-47.png)
 
 ![LÖVE Version](https://img.shields.io/badge/L%C3%96VE-11.5-EA316E?logo=love2d)
 ![Language](https://img.shields.io/badge/Language-Lua-000080?logo=lua)
 ![Physics](https://img.shields.io/badge/Physics-Box2D-green)
 
-## 🎮 Sådan Starter Du Spillet
+## 🎮 How to Start
 
-1. **Start spillet** med kommandoen `love .`
-2. **Tryk SPACE** på hovedmenuen for at starte
-3. **Undgå meteorer**, skyd med railgun, og beskyt den indre zone!
+1. **Launch the game** with `love .`
+2. **Press SPACE** on the main menu to begin
+3. **Avoid meteors**, fire the railgun, and protect the inner zone!
 
-### Kontroller (I spillet)
-- **←/→ Piltaster**: Roter rumskib
-- **↑ Piltast**: Thrust fremad
-- **SPACE**: Affyr railgun
+### Controls (in-game)
+- **←/→ Arrow keys**: Rotate ship
+- **↑ Arrow**: Thrust forward
+- **SPACE**: Fire railgun
 - **P**: Pause
-- **ESC**: Afslut
+- **ESC**: Quit
 
 ### Gameplay Features
-- **TSDF Fragmentation**: Meteorer fragmenterer realistisk når de rammes
-- **Penetrerende Railgun**: Skud går igennem alle objekter i sin bane
-- **Beskyttet Zone**: Lad ikke meteorer krydse den indre cirkel!
-- **Fysik-baseret**: Box2D collision med masse og momentum
-- **3 Liv**: Ship respawner efter kollision
+- **TSDF Fragmentation**: Meteors break apart realistically on impact
+- **Penetrating Railgun**: Shots pass through everything on their path
+- **Protected Zone**: Keep meteors out of the inner circle
+- **Physics-driven**: Box2D collisions with mass and momentum
+- **3 Lives**: Ship respawns after a hit
 
-## 🚀 Kom I Gang
+## 🚀 Getting Started
 
-### Krav
-- [LÖVE 11.5](https://love2d.org/) eller nyere installeret på din computer
+### Requirements
+- [LÖVE 11.5](https://love2d.org/) or newer installed
 
-### Trin-for-trin Guide
+### Step-by-step
 
-1. **Download/klon projektet**
-2. **Åbn terminal** i projektmappen
-3. **Kør kommandoen:**
+1. **Download/clone the project**
+2. **Open a terminal** in the project folder
+3. **Run the command:**
 
 **macOS / Linux:**
 ```bash
@@ -43,49 +45,57 @@ love .
 ```
 
 **Windows:**
-Træk projektmappen på `love.exe` eller åbn kommandoprompt og kør:
+Drag the project folder onto `love.exe` or open Command Prompt and run:
 ```bash
 love.exe .
 ```
 
-4. **Tryk SPACE** på hovedmenuen for at starte spillet!
+4. **Press SPACE** on the main menu to start playing!
 
-### Alternativ: Opret .love fil
+### Alternative: Build a .love file
 
-Hvis du vil dele spillet:
+If you want to share the game:
 ```bash
 zip -r AxiumForge.love .
 love AxiumForge.love
 ```
 
-## 🎨 Visuel Stil
+## 🚢 Release & Distribution (v0 baseline)
 
-**"Glow Vector Look"** kombineret med matematisk SDF rendering:
-- Alle objekter tegnes fra distance field primitives
-- Multi-layer glow effekter
-- Animeret solsystem baggrund med roterende planeter
-- Ingen PNG/JPG assets - 100% procedural grafik
+- Tag a version (`v0.x.y`) and push the tag to trigger the GitHub Actions workflow in `.github/workflows/release.yml`.
+- Outputs: `AxiumForge-<version>.love`, Windows fused ZIP (`AxiumForge-windows-<version>.zip`), macOS app ZIP (`AxiumForge-macOS-<version>.zip`), and Linux AppImage (`AxiumForge-linux-<version>.AppImage`).
+- Windows build is a single `.exe` with DLLs; macOS ships as `AxiumForge.app`; Linux AppImage is a fused runtime (chmod +x).
+- Artifacts are attached automatically to the GitHub release created from the tag.
+- Web build is optional and manual (see `docs/RELEASE.md` for love.js guidance).
 
-## 🔧 Teknisk Overview
+## 🎨 Visual Style
 
-### Arkitektur
+**“Glow Vector Look”** combined with mathematical SDF rendering:
+- All objects drawn from distance-field primitives
+- Multi-layer glow effects
+- Animated solar-system background with orbiting planets
+- No PNG/JPG assets—100% procedural graphics
+
+## 🔧 Technical Overview
+
+### Architecture
 ```
 src/
-  core/         - Kernesystemer (physics, input, game state)
-  entities/     - Spil-entiteter (ship, meteor, railgun)
-  render/       - Rendering systemer (SDF, background, UI)
-  data/         - Data-definitions (meteor types, settings)
+  core/         - Core systems (physics, input, game state)
+  entities/     - Game entities (ship, meteor, railgun)
+  render/       - Rendering systems (SDF, background, UI)
+  data/         - Data definitions (meteor types, settings)
 ```
 
-### Nøgleteknologier
-- **LÖVE 2D (Lua)**: Game engine og framework
+### Key Technologies
+- **LÖVE 2D (Lua)**: Game engine and framework
 - **Box2D**: 2D physics engine (collision, ricochet, momentum)
-- **SDF/TSDF**: Mathematisk shape representation
-- **Data-drevet design**: Alle parametre i eksterne filer
+- **SDF/TSDF**: Mathematical shape representation
+- **Data-driven design**: All parameters in external files
 
 ### SDF System
 
-Meteorer defineres som composite shapes:
+Meteors are defined as composite shapes:
 ```lua
 {
   id = "large_01",
@@ -93,7 +103,7 @@ Meteorer defineres som composite shapes:
   primitives = {
     { shape = "circle", r = 70, offset = {x=0, y=0} },
     { shape = "circle", r = 35, offset = {x=20, y=-15} },
-    -- ... flere primitives
+    -- ... more primitives
   },
   density = 2.0,
   fracture_threshold = 150
@@ -102,77 +112,82 @@ Meteorer defineres som composite shapes:
 
 ### TSDF Fragmentation
 
-Når en meteor rammes:
-1. Akkumuleret damage tjekkes mod threshold
-2. Hvis overskredet: spawn 2-3 fragmenter
-3. Fragmenter skalerer SDF data (0.5x-0.7x)
-4. Fragmenter arver fysiske egenskaber (masse, velocity)
-5. Minimum størrelse stopper fragmentering
+When a meteor is hit:
+1. Accumulated damage is checked against the threshold
+2. If exceeded: spawn 2–3 fragments
+3. Fragments scale SDF data (0.5x–0.7x)
+4. Fragments inherit physical properties (mass, velocity)
+5. Minimum size stops further fragmentation
 
 ## 📊 Status
 
-### ✅ MVP Komplet (FASE 1)
-- [x] Projektstruktur og LÖVE setup
+### ✅ MVP Complete (Phase 1)
+- [x] Project structure and LÖVE setup
 - [x] Core systems (Physics, Input, Game State)
 - [x] Data layer (Settings, SDF meteor definitions)
-- [x] SDF rendering system med glow
-- [x] Ship entity med Box2D physics
-- [x] Meteor entity med SDF composites
+- [x] SDF rendering with glow
+- [x] Ship entity with Box2D physics
+- [x] Meteor entity with SDF composites
 - [x] Meteor spawning system
-- [x] Railgun med penetrerende raycast
+- [x] Railgun with penetrating raycast
 - [x] TSDF fragmentation
 - [x] Railgun visual effects
 - [x] Protected zone collision detection
-- [x] Ship-meteor collision detection
+- [x] Ship–meteor collision detection
 - [x] Game over conditions
-- [x] Animated background med solar system
+- [x] Animated background with solar system
 - [x] UI system (score, lives, cooldown, FPS)
 
-### 🔜 Næste Features (FASE 2)
-Se [TODO](TODO) for detaljeret plan:
-- **Visual Enhancement**: 3D-lignende shading, normals, terminators
+### 🔜 Next Features (Phase 2)
+See [TODO](TODO) for the detailed plan:
+- **Visual Enhancement**: 3D-like shading, normals, terminators
 - **Gameplay Polish**: Screen shake, sound, difficulty scaling
 - **Advanced Features**: Shaders, LÖVR port, lore system
 
-## 📁 Projektfiler
+## 📁 Project Files
 
-- `main.lua` - Hoved game loop
-- `conf.lua` - LÖVE konfiguration
-- `TODO` - Detaljeret udviklingsplan
-- `CHANGELOG` - Implementeringsoversigt
+- `main.lua` - Main game loop
+- `conf.lua` - LÖVE configuration
+- `TODO` - Detailed development plan
+- `CHANGELOG` - Implementation overview
 - `CLAUDE.md` - AI assistance guidelines
-- `docs/PROJECT/project.md` - Fuld projektspecifikation
+- `docs/PROJECT/project.md` - Full project specification
 
-## 🎯 Design Filosofi
+## 🎯 Design Philosophy
 
-1. **Data-drevet**: Ingen hardcodede værdier i logik
-2. **Modulær**: Klart adskilte ansvar
-3. **SDF-baseret**: Al grafik fra matematiske primitives
-4. **Fysik-tung**: Box2D driver al bevægelse og kollision
-5. **MVP først**: Spilbar iteration før advanced features
+1. **Data-driven**: No hardcoded values in logic
+2. **Modular**: Clear separation of responsibilities
+3. **SDF-based**: All graphics from mathematical primitives
+4. **Physics-heavy**: Box2D drives movement and collision
+5. **MVP first**: Playable iteration before advanced features
 
 ## 🐛 Known Issues / Limitations
 
-- Ingen invulnerability frames ved respawn
-- Screen shake effekt ikke implementeret endnu
-- Background perspektiv er top-down (skal være 20-30 grader)
-- Ingen 3D-lignende shading endnu (kun glow)
-- Ingen lyd
+- No invulnerability frames on respawn
+- Screen shake not implemented yet
+- Background perspective is top-down (target is 20–30 degrees)
+- No 3D-like shading yet (only glow)
+- No audio
 
-## 📖 Yderligere Læsning
+## 📖 Further Reading
 
 - [LÖVE Documentation](https://love2d.org/wiki/Main_Page)
 - [Box2D Manual](https://box2d.org/documentation/)
 - [Signed Distance Fields](https://iquilezles.org/articles/distfunctions2d/)
 
-## 📝 Licens
+## 📝 License
 
-Dette er et eksperimentelt projekt. Se projektfiler for detaljer.
+This is an experimental project. See project files for details.
 
 ## 🤖 Development
 
-Dette projekt er udviklet med assistance fra Claude Code (Anthropic).
+This project is built with assistance from Claude Code (Anthropic).
 
 ---
 
-**Nyd spillet! Destruér nogle meteorer! 🚀💥**
+**Enjoy the game! Destroy some meteors! 🚀💥**
+
+Kindly \
+**Twisted Brain** \
+Claude 4.5 Sonet and \
+GPT 5.1
