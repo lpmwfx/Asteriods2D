@@ -4,18 +4,15 @@
 
 **Navn:** AxiumForge – SDF Asteroids
 **Engine:** LÖVE 2D (Lua)
-**Type:** Moderne Asteroids-inspireret arcade shooter
-
-### Projektets Intention
-
-Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). Ingen bitmap assets (PNG/JPG) bruges - alt tegnes proceduralt fra parametre.
+**Type:** Moderne Asteroids-inspireret arcade shooter med SDF/TSDF grafik
 
 ### Kernekoncept
 
 **Visuel Stil:**
 - "Glow vector look" med skarpe SDF-kurver og rene lyskanter
-- Animeret solsystem i parallax baggrund
+- Animeret solsystem i parallax baggrund med 15-20° perspektiv
 - Alt er data-drevet - ingen hardcodede værdier
+- 3D-lignende shading og lys på 2D objekter
 
 **Gameplay:**
 - Undgå meteorer i rummet
@@ -31,175 +28,373 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 **Teknisk Unikhed:**
 - SDF rendering direkte via love.graphics
 - TSDF-baseret fragmentering (plan-cuts gennem distance fields)
-- Data-drevet arkitektur hvor meteorer defineres som primitive shapes (cirkler, ellipser) med CSG operationer
-- Samme SDF data kan senere bruges i LÖVR (3D/VR port)
-
-### Reference Materiale
-
-`assets/references/` indeholder billeder af autentiske SDF/TSDF objekter - disse skal bruges som visuel reference for hvordan meteorer og effekter skal se ud.
-
-### Udviklings Princip
-
-- **Modulær arkitektur** - rene filer, klart adskilte ansvar
-- **Data-drevet** - al logik læser fra data-filer
-- **MVP først** - få en spilbar iteration før advanced features
-- **Engelsk kode** - selv om dokumentation er dansk
+- Data-drevet arkitektur
+- Opløsningsuafhængigt design (op til 2K support)
 
 ---
 
-## FASE 1: MVP - Første Spilbare Iteration
+## FASE 1: MVP - Første Spilbare Iteration ✅ KOMPLET
 
-### 1. Projektstruktur og LÖVE Setup
-- [X] Opret mappestruktur (src/core, src/entities, src/render, src/data)
-- [X] Opret conf.lua med L�VE konfiguration (window size, title, version)
-- [X] Opret main.lua med grundl�ggende love.load(), love.update(dt), love.draw()
-- [X] Test at projektet k�rer med `love .`
+### Status
+- [X] Alle core systemer implementeret
+- [X] Ship, Meteor, Railgun entities fungerer
+- [X] TSDF fragmentation virker
+- [X] Box2D physics med collision detection
+- [X] Basic SDF rendering med glow
+- [X] Spawning system
+- [X] Protected zone med penalty
+- [X] Game loop med menu, playing, game over states
+- [X] UI system (score, lives, meteor count, railgun cooldown)
+- [X] Basic background med solar system
+- [X] README og CHANGELOG opdateret
 
-### 2. Core Systems (src/core/)
-- [X] game_state.lua - State management (menu, playing, paused, game_over)
-- [X] input.lua - Input handling (keyboard mappings for rotation, thrust, fire)
-- [X] physics.lua - Box2D world setup med korrekte units og gravity=0
+### Implementerede Systemer
+1. Core: Physics, Input, Game State
+2. Entities: Ship, Meteor, Railgun
+3. Rendering: SDF system, Background, UI
+4. Data: Settings, SDF Meteor definitions
+5. Gameplay: Spawning, Collision, Fragmentation, Scoring
 
-### 3. Data Layer (src/data/)
-- [X] settings.lua - Game konstanter (screen bounds, spawn radius, railgun cooldown)
-- [X] sdf_meteors.lua - Definer minimum 3 meteor typer med SDF primitives:
-  - [X] Small meteor (radius ~20-30)
-  - [X] Medium meteor (radius ~40-50)
-  - [X] Large meteor (radius ~60-80)
-  - [X] Inkluder density, fracture_threshold for hver type
+**Note:** Box2D locking issue løst med deferred action pattern.
 
-### 4. SDF Rendering System (src/render/)
-- [X] draw_sdf.lua - Basis SDF rendering funktioner:
-  - [X] drawCircleSDF(x, y, radius, color, glowSize) - SDF circle med glow
-  - [X] drawCompositeSDF(primitives) - Tegn multiple primitives som �n form
-  - [X] drawLine(x1, y1, x2, y2, thickness, glow) - Til railgun beam
-- [X] Test SDF rendering med simple former
+---
 
-### 5. Player Ship Entity (src/entities/ship.lua)
-- [X] Opret ship modul med:
-  - [X] Box2D polygon body (trekant/kile form)
-  - [X] Rotation control (left/right keys)
-  - [X] Forward thrust (up key)
-  - [X] Position, velocity, angle tracking
-  - [X] ship:update(dt) - H�ndter input og physics
-  - [X] ship:draw() - Tegn ship som SDF polygon/lines med glow
-- [X] Tune ship physics (mass, friction, angular damping)
+## FASE 2: Visual Enhancements & Technical Polish
 
-### 6. Meteor Entity (src/entities/meteor.lua)
-- [X] Opret meteor modul med:
-  - [X] Load SDF definition fra data/sdf_meteors.lua
-  - [X] Box2D circle body (simpel collider for MVP)
-  - [X] Velocity og angular velocity
-  - [X] meteor:new(type, x, y, vx, vy) - Constructor
-  - [X] meteor:update(dt) - Physics update
-  - [X] meteor:draw() - Tegn fra SDF primitives med glow effect
-  - [X] meteor:applyDamage(power, x, y, nx, ny) - Damage handler
+### 1. AxShot Screenshot System ✅ KOMPLET
+**Reference:** docs/PROJECT/screenshots.md
 
-### 7. Meteor Spawning System
-- [X] Spawn manager i game_state.lua eller separat modul:
-  - [X] Spawn meteorer i ring udenfor sk�rmen (configurable radius)
-  - [X] Random spawn positions p� ring
-  - [X] Random velocity rettet mod indre zone (med variation)
-  - [X] Spawn interval/rate (start med 2-3 sekunder)
-  - [X] Max antal aktive meteorer (start med 5-10)
+- [X] Opret axforge/axshot.lua modul
+- [X] Instance-based organization (screenshots/<instance_id>/)
+- [X] Hotkey support (F12)
+- [X] Filename templates med timestamp
+- [X] Metadata support
+- [X] LÖVE/LÖVR compatibility layer
+- [X] Integration i main.lua
+- [X] README opdatering med screenshot instruktioner
 
-### 8. Railgun System (src/entities/railgun.lua)
-- [X] Opret railgun modul:
-  - [X] world:rayCast() implementation fra ship position/angle
-  - [X] Cooldown timer (1-2 sekunder)
-  - [X] rayCallback() - H�ndter collision med meteorer
-  - [X] railgun:fire(world, x, y, angle) - Affyr fra ship
-  - [X] railgun:update(dt) - Opdater cooldown
-  - [X] railgun:canFire() - Check cooldown status
+---
 
-### 9. Railgun Visual Effects (src/render/)
-- [X] Railgun beam rendering:
-  - [X] Tegn instant beam fra ship til raycast max distance
-  - [X] Multi-layer glow (tynd core + bred outer glow)
-  - [X] Beam fade-out animation (0.1-0.2 sekunder)
-  - [X] Impact flash ved collision punkt
-- [ ] Screen shake effekt (simpel camera offset)
+### 2. Display & Viewport System (Resolution Independence)
+**Reference:** docs/PROJECT/projectv02.md Section 2A
 
-### 10. TSDF Fragmentation (MVP version)
-- [X] Simpel fragmentering i meteor.lua:
-  - [X] Ved applyDamage() over threshold � spawn 2-3 mindre meteorer
-  - [X] Skal�r original SDF ned (0.5x - 0.7x radius)
-  - [X] Giv fragmenter velocity v�k fra impact normal
-  - [X] Minimum st�rrelse (stop fragmentation under radius ~15)
-  - [X] Destru�r original meteor
+#### 2.1 Virtual Resolution System
+- [ ] Opret src/core/viewport.lua
+  - [ ] Definér virtual base resolution (1920x1080)
+  - [ ] Calculate scaling factors based on window size
+  - [ ] viewport:getScale() - Return scale factor
+  - [ ] viewport:toVirtual(x, y) - Screen to virtual coordinates
+  - [ ] viewport:toScreen(x, y) - Virtual to screen coordinates
+  - [ ] viewport:applyTransform() - Set scaling transform for rendering
 
-### 11. Background System (src/render/background.lua)
-- [X] Opret background modul:
-  - [X] Tegn central sol (stor SDF circle med multi-layer glow)
-  - [X] 2-3 planeter p� forskellige orbits
-  - [X] Langsom orbital animation (rotation_speed per planet)
-  - [X] Parallax effekt (baggrund bev�ger sig lidt med ship)
-- [X] Farvegradienter for planeter
-- [ ] **VIGTIGT**: Solsystem skal ses fra 20-30 graders vinkel oppefra (ikke direkte top-down)
-  - [ ] Planeter forbliver runde SDF circles
-  - [ ] Orbits skal tegnes som ellipser (perspective projection)
-  - [ ] Giv dybdefølelse med scaling og layering
+#### 2.2 Fullscreen System
+- [ ] Opret src/core/display.lua
+  - [ ] display:getMonitorResolution() - Detect monitor specs
+  - [ ] display:selectBestResolution() - Choose closest to 2K max
+  - [ ] display:setFullscreen(enabled) - Toggle fullscreen
+  - [ ] display:handleResize(w, h) - Window resize callback
+  - [ ] Support for multiple monitors
 
-### 12. Protected Zone
-- [X] Tegn indre beskyttet zone (SDF circle outline, ikke filled)
-- [X] Collision detection: meteor krydser zone � trigger penalty
-- [X] Penalty system (reduc�r liv/shields eller instant game over for MVP)
+#### 2.3 Configuration Integration
+- [ ] Opdater conf.lua:
+  - [ ] Add fullscreen = true som default
+  - [ ] Add window.resizable = true
+  - [ ] Add window.highdpi = true for DPI support
+  - [ ] Add supported resolutions list up to 2560x1440
 
-### 13. UI System (src/render/ui.lua)
-- [X] Minimal HUD:
-  - [X] Score display (�verst)
-  - [X] Lives/Shields indicator
-  - [X] Active meteors count
-  - [X] Railgun cooldown indicator (visual bar eller timer)
-- [X] Game Over sk�rm
-- [X] Simple pause menu
+#### 2.4 DPI & Scaling Support
+- [ ] Implementer DPI detection:
+  - [ ] love.window.getDPIScale() integration
+  - [ ] Adjust UI scaling factors
+  - [ ] Font rendering skalering
+  - [ ] Line width adjustments for SDF rendering
 
-### 14. Game Loop Integration
-- [X] Integr�r alle systemer i main.lua:
-  - [X] Initialize ship, physics, background
-  - [X] Update loop: input � physics � meteors � railgun � spawning
-  - [X] Draw loop: background � meteors � ship � railgun effects � UI
-  - [X] Collision callbacks mellem ship og meteorer
+#### 2.5 Ultrawide Support
+- [ ] Letterboxing system for extreme aspect ratios (21:9, 32:9)
+- [ ] Background expansion uden gameplay deformation
+- [ ] Keep gameplay area centered og korrekt proportioner
 
+#### 2.6 Integration & Testing
+- [ ] Integrer viewport system i main.lua
+- [ ] Update all rendering calls to use viewport transforms
+- [ ] Update UI positioning til virtual coordinates
+- [ ] Test på forskellige opløsninger (1280x720, 1920x1080, 2560x1440)
+- [ ] Test fullscreen toggle med F11 hotkey
+- [ ] Test window resize dynamisk
 
-### 16. Documentation
-- [X] Opdat�r CHANGELOG med implementerede features
-- [X] Opret README.md med:
-  - [X] Hvordan man k�rer spillet
-  - [X] Controls (arrow keys, space)
-  - [X] Gameplay beskrivelse
-  - [X] Teknisk overview (SDF/TSDF, Box2D)
-- [X] Opdat�r TODO.md med erfaringer og n�ste iteration
+---
 
+### 3. 3D-Like Visual System (Pseudo-3D Shading)
+**Reference:** docs/PROJECT/projectv02.md Section 5A
 
+#### 3.1 Lighting System
+- [ ] Opret src/render/lighting.lua
+  - [ ] Global light direction (from sun position)
+  - [ ] lighting:setDirection(dx, dy) - Set light vector
+  - [ ] lighting:calculateIntensity(nx, ny) - Calculate diffuse lighting
+  - [ ] lighting:getRimLight(nx, ny) - Calculate rim lighting
 
-## Nuv�rende Status
-- [X] Projektdokumentation komplet
-- [X] CLAUDE.md oprettet
-- [X] Sektion 1-10 implementeret og testet (Core MVP gameplay færdig!)
-- [X] Projektet kører fejlfrit med LÖVE 11.5
-- [X] Fully playable game loop med Ship, Meteors, Railgun og Fragmentering
+#### 3.2 SDF Normals & Gradients
+- [ ] Udvid src/render/draw_sdf.lua:
+  - [ ] calculateNormal(sdf, x, y) - Compute SDF gradient
+  - [ ] drawShadedCircleSDF() - Circle med lighting
+  - [ ] drawShadedCompositeSDF() - Composite shapes med lighting
+  - [ ] Apply diffuse shading baseret på normal og light direction
 
-## Gameplay Status (🎉 MVP COMPLETE! 🎉)
-- [X] Ship controls (rotation, thrust, screen wrapping)
-- [X] Meteor spawning system
-- [X] Railgun weapon med penetration
-- [X] TSDF fragmentation af meteorer
-- [X] SDF rendering for alle entities
-- [X] UI med score, lives, meteor count, railgun cooldown
-- [X] Animated background med solar system
-- [X] Protected zone penalty system
-- [X] Ship-meteor collision detection
-- [X] Game over conditions
-- [X] Ship respawn system
-- [X] Score tracking
-- [X] README.md komplet
+#### 3.3 Terminator Lines (Day/Night Boundaries)
+- [ ] Implementer terminator rendering for planets:
+  - [ ] calculateTerminator(planet, lightDir) - Find boundary
+  - [ ] drawTerminatorGradient() - Smooth gradient mellem lit/unlit
+  - [ ] Apply til Earth og planets i background
 
-## N�ste Skridt
-Start med sektion 11-16 for at færdiggøre MVP:
-- Background system forbedringer (perspektiv)
-- Protected zone collision detection
-- UI polish
-- Game loop integration finalisering
-- Tuning og balancing
-- Documentation
+#### 3.4 Material Properties
+- [ ] Opret src/data/materials.lua:
+  - [ ] Definér material types (rock, metal, ice for meteors)
+  - [ ] Properties: albedo, roughness, specular
+  - [ ] Ship material: metal med high specular
+  - [ ] Planet materials med farver og reflektivitet
+
+---
+
+### 4. Multi-Layer Background System (Deep Space Scene)
+**Reference:** docs/PROJECT/projectv02.md Section 5A
+
+#### 4.1 Star Field Layer (Deepest)
+- [ ] Opret src/render/starfield.lua:
+  - [ ] Generate 3 size layers: tiny, medium, large stars
+  - [ ] SDF-based star rendering (micro circles + noise)
+  - [ ] Parallax factors: 0.02 (tiny), 0.05 (medium), 0.1 (large)
+  - [ ] Optional galactic fog (procedural gradient/noise)
+  - [ ] starfield:update(shipX, shipY) - Parallax tracking
+  - [ ] starfield:draw() - Render all star layers
+
+#### 4.2 Distant Solar System Layer
+- [ ] Udvid src/render/background.lua:
+  - [ ] Position sun low in background (asymmetric composition)
+  - [ ] Sun surface turbulence (rotating noise pattern)
+  - [ ] Tone down sun intensity to 30-40% brightness
+  - [ ] Add 2-3 iconic planets:
+    - [ ] Jupiter (banded atmosphere SDF pattern)
+    - [ ] Saturn (with ring system - SDF ring + alpha falloff)
+    - [ ] Mars (reddish coloration)
+  - [ ] Planets rendered at 30-40% brightness
+  - [ ] Very slow orbital animation (long periods)
+
+#### 4.3 Earth Layer (Mid-Background)
+- [ ] Implementer Earth rendering:
+  - [ ] Large SDF sphere (partial visibility - bottom 70% only)
+  - [ ] Procedural continent shapes (noise-based SDF islands)
+  - [ ] Cloud layer overlay (separate noise with alpha)
+  - [ ] Terminator line med day/night shading
+  - [ ] Earth should be recognizable but toned down
+  - [ ] Position nederst i billedet (horizon-like)
+
+#### 4.4 Camera Perspective (15-20° Angle)
+- [ ] Implementer perspective system:
+  - [ ] Orbits skal være ellipser (ikke cirkler)
+  - [ ] Scale planets based på dybde (smaller = further)
+  - [ ] Y-offset for planets baseret på orbit depth
+  - [ ] Maintain round SDF circles for planet shapes
+  - [ ] Only orbit paths are perspective-projected
+
+#### 4.5 Toning & Color Balance
+- [ ] Adjust all background layers:
+  - [ ] Background = 30-50% lysstyrke
+  - [ ] Gameplay objects = 100% lysstyrke + skarpe konturer
+  - [ ] Ensure baggrund distraherer ikke fra gameplay
+  - [ ] Test contrast ratios for readability
+
+---
+
+### 5. Meteor Visual Enhancements (3D-Like Surface)
+**Reference:** docs/PROJECT/projectv02.md Section 5
+
+#### 5.1 Surface Detail System
+- [ ] Opret src/render/meteor_surface.lua:
+  - [ ] Procedural crater generation (small SDF circles)
+  - [ ] Surface bumps/irregularities (noise-based)
+  - [ ] Crack patterns (line SDF with glow)
+  - [ ] meteorSurface:generate(meteorType) - Create detail primitives
+
+#### 5.2 Meteor Shading
+- [ ] Udvid src/entities/meteor.lua:
+  - [ ] Apply lighting system to meteor surface
+  - [ ] Calculate normals from SDF gradient
+  - [ ] Rim light på bagside (backlit fra solen)
+  - [ ] Diffuse shading based on light direction
+  - [ ] Darker side away from sun
+
+#### 5.3 Material Variations
+- [ ] Implementer forskellige meteor materials:
+  - [ ] Rocky (grey/brown, rough surface)
+  - [ ] Metallic (reflective, sharper highlights)
+  - [ ] Icy (blue tint, high specular)
+  - [ ] Assign materials i sdf_meteors.lua definitions
+
+---
+
+### 6. Ship Visual Enhancements (Metallic Look)
+**Reference:** docs/PROJECT/projectv02.md Section 5
+
+#### 6.1 Multi-Layer Ship Rendering
+- [ ] Udvid src/entities/ship.lua:
+  - [ ] Separate SDF layers for:
+    - [ ] Hull/body (main triangle shape)
+    - [ ] Cockpit (glass-like overlay)
+    - [ ] Panels/details (surface details)
+    - [ ] Engine glow (thruster exhaust)
+  - [ ] Each layer with different material properties
+
+#### 6.2 Ship Shading & Highlights
+- [ ] Apply lighting system til ship:
+  - [ ] Metal material med high specular
+  - [ ] Sharp highlights along edges
+  - [ ] Rim light effect
+  - [ ] Cockpit glass reflection/refraction effect
+
+#### 6.3 Thruster Effects
+- [ ] Enhanced thrust visualization:
+  - [ ] Animated flame shape (SDF-based)
+  - [ ] Heat distortion effect (optional)
+  - [ ] Particle trail (small glowing dots)
+  - [ ] Varies with thrust intensity
+
+---
+
+### 7. Advanced Railgun Effects
+**Reference:** docs/PROJECT/projectv02.md
+
+#### 7.1 Screen Shake
+- [ ] Opret src/render/camera.lua:
+  - [ ] camera:shake(intensity, duration)
+  - [ ] Random offset generation
+  - [ ] Exponential decay
+  - [ ] Apply offset til all rendering
+  - [ ] Trigger ved railgun fire
+
+#### 7.2 Enhanced Beam Effects
+- [ ] Udvid railgun visual system:
+  - [ ] Lens flare ved muzzle flash
+  - [ ] Star spikes (cross pattern)
+  - [ ] Heat shimmer along beam path
+  - [ ] Enhanced impact flash med radial burst
+
+#### 7.3 Particle System
+- [ ] Opret src/render/particles.lua:
+  - [ ] Particle pool system
+  - [ ] SDF-based particle rendering
+  - [ ] Debris particles ved impact
+  - [ ] Dust/smoke trails
+  - [ ] Spark effects ved fragmentation
+
+---
+
+### 8. Performance Optimization
+
+#### 8.1 SDF Rendering Optimization
+- [ ] Profile rendering performance:
+  - [ ] Identify hot paths i draw_sdf.lua
+  - [ ] Cache SDF calculations hvor muligt
+  - [ ] Implement distance-based LOD for distant objects
+  - [ ] Reduce glow layers for small meteors
+
+#### 8.2 Physics Optimization
+- [ ] Box2D performance tuning:
+  - [ ] Adjust velocity/position iterations
+  - [ ] Implement spatial partitioning hvis nødvendigt
+  - [ ] Pool og reuse Box2D bodies
+
+#### 8.3 Memory Management
+- [ ] Audit memory usage:
+  - [ ] Proper cleanup af destroyed entities
+  - [ ] Particle system pooling
+  - [ ] Texture/canvas reuse
+
+---
+
+### 9. Polish & Tuning
+
+#### 9.1 Visual Balance
+- [ ] Test alle visual enhancements sammen:
+  - [ ] Verify background ikke distraherer
+  - [ ] Check contrast ratios
+  - [ ] Validate læsbarhed af UI
+  - [ ] Test på forskellige skærmstørrelser
+
+#### 9.2 Gameplay Balance
+- [ ] Tune difficulty progression:
+  - [ ] Dynamic spawn rate baseret på score
+  - [ ] Meteor size distribution
+  - [ ] Railgun power scaling (optional)
+  - [ ] Protected zone size adjustment
+
+#### 9.3 Reference Validation
+- [ ] Compare med assets/references/ billeder:
+  - [ ] Match SDF visual style
+  - [ ] Verify glow effects
+  - [ ] Check surface detail fidelity
+  - [ ] Ensure authentic TSDF look
+
+---
+
+### 10. Documentation Updates
+
+- [ ] Opdater README.md:
+  - [ ] Document resolution support (up to 2K)
+  - [ ] Fullscreen instructions
+  - [ ] Visual enhancements beskrivelse
+  - [ ] Updated screenshots
+
+- [ ] Opdater CHANGELOG:
+  - [ ] All FASE 2 features
+  - [ ] Performance improvements
+  - [ ] Visual enhancements
+
+- [ ] Opdater TODO:
+  - [ ] Mark completed FASE 2 tasks
+  - [ ] Note erfaringer og learnings
+  - [ ] Prepare for FASE 3
+
+---
+
+## FASE 3: Advanced Features (Fremtid)
+
+### Ikke prioriteret endnu - placeholders:
+- [ ] Sound system (railgun, impacts, explosions, ambient)
+- [ ] Advanced shader effects (raymarch, bloom, HDR)
+- [ ] GLSL shaders for GPU-accelerated SDF rendering
+- [ ] Port til LÖVR (3D/VR version)
+- [ ] Powerups system
+- [ ] Difficulty progression og waves
+- [ ] Highscore tracking og leaderboards
+- [ ] Meteor-meteor collision chain reactions
+- [ ] Advanced CSG operations for TSDF
+- [ ] Lore system og narrative elements
+- [ ] Level progression system
+- [ ] Boss encounters
+
+---
+
+## Nuværende Status
+
+**FASE 1 (MVP):** ✅ Komplet og testet
+- Fully playable game loop
+- All core mechanics fungerer
+- Box2D physics stabil
+- SDF rendering fungerer
+
+**FASE 2:** 🔄 I gang
+- [X] AxShot Screenshot System implementeret
+- [ ] Display & Viewport System - næste opgave
+- [ ] 3D-Like Visual System - pending
+- [ ] Multi-Layer Background - pending
+- [ ] Visual enhancements - pending
+
+**FASE 3:** ⏸️ Ikke startet
+
+---
+
+## Næste Skridt
+
+Start med FASE 2, sektion 2: **Display & Viewport System**
+Dette er fundamentet for resolution-independence og fullscreen support.
