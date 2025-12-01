@@ -67,6 +67,9 @@
 ### 3. 3D-Like Visual System (Pseudo-3D Shading)
 **Reference:** docs/PROJECT/projectv02.md Section 5A
 
+#### 3.0 Release Naming
+- [ ] Rename public release branding from "AxiumForge" to a unique title (e.g., "2D Asteroid Defence" or similar) for store/release assets and notes.
+
 #### 3.1 Lighting System
 - [ ] Opret src/render/lighting.lua
   - [ ] Global light direction (from sun position)
