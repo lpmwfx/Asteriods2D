@@ -36,7 +36,12 @@ jobs:
       - name: Derive version and package name
         shell: bash
         run: |
-          VERSION="${GITHUB_REF#refs/tags/}"
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/}"
+          else
+            SHORT_SHA="$(git rev-parse --short HEAD)"
+            VERSION="main-${SHORT_SHA}"
+          fi
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           echo "LOVE_FILE=dist/AxiumForge-${VERSION}.love" >> "$GITHUB_ENV"
 

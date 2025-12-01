@@ -1,6 +1,6 @@
 # Release Guide (v0 Baseline)
 
-This project ships releases from Git tags (`v*`) via GitHub Actions. The `release.yml` workflow builds platform bundles and publishes them to GitHub Releases automatically. It also runs on pushes to `main` (helpful for validating packaging) and can be triggered manually via “Run workflow”.
+This project ships releases from Git tags (`v*`) via GitHub Actions. The `release.yml` workflow builds platform bundles and publishes them to GitHub Releases automatically. It also runs on pushes to `main` (helpful for validating packaging) and can be triggered manually via “Run workflow”. Branch builds are labeled `main-<shortsha>` to avoid invalid file names.
 
 ## How to Cut a Release
 1. Bump version/tag locally, for example `v0.1.0`.
