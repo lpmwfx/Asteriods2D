@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Transparent Twisted Brain logos (`assets/logo/tb-logo-transparent.png` and `assets/logo/tb-logo-200-transparent.png`) and README now references the background-free version.
+
+### [2025-12-01] - v0.1.0 Baseline Release
+
+#### Added
+- GitHub Actions multi-platform release workflow (`.github/workflows/release.yml`) that builds `.love`, Windows ZIP (fused `.exe`), macOS app ZIP, and Linux AppImage on tags.
+- Release notes template and publication using `gh release edit` with platform install steps and FUSE2-safe AppImage guidance.
+
+#### Notes
+- Linux AppImage expects FUSE2; release text includes a no-install fallback (`--appimage-extract` + `./squashfs-root/AppRun`) instead of advising system-wide FUSE installs.
+- Release artifacts attached to GitHub Release `v0.1.0`.
+
 ### [2025-12-01] - FASE 2: Display & Viewport System (Resolution Independence)
 
 #### Added
