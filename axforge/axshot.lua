@@ -62,13 +62,15 @@ end
 
 local function baseFolder()
     local base = AxShot.config.folder or "screenshots"
-    if AxShot.instance.id then
-        base = base .. "/" .. AxShot.instance.id
-    end
 
     -- Get absolute path to project directory
     local projectPath = love.filesystem.getSourceBaseDirectory()
     local fullPath = projectPath .. "/" .. base
+
+    -- Add instance subfolder if configured
+    if AxShot.instance.id then
+        fullPath = fullPath .. "/" .. AxShot.instance.id
+    end
 
     -- Create directory using OS command (love.filesystem can't create outside save dir)
     os.execute('mkdir -p "' .. fullPath .. '"')
