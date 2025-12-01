@@ -111,12 +111,16 @@ PY
         if: matrix.platform == 'macos'
         shell: bash
         run: |
+          set -euo pipefail
           curl -L "${{ matrix.love_url }}" -o love.zip
-          unzip love.zip
+          unzip -q love.zip
           mv love.app AxiumForge.app
+          mkdir -p AxiumForge.app/Contents/Resources
           cp "${LOVE_FILE}" AxiumForge.app/Contents/Resources/game.love
-          /usr/libexec/PlistBuddy -c "Set :CFBundleName AxiumForge" AxiumForge.app/Contents/Info.plist
-          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName AxiumForge" AxiumForge.app/Contents/Info.plist
+          if [ -x /usr/libexec/PlistBuddy ]; then
+            /usr/libexec/PlistBuddy -c "Set :CFBundleName AxiumForge" AxiumForge.app/Contents/Info.plist || true
+            /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName AxiumForge" AxiumForge.app/Contents/Info.plist || true
+          fi
           ditto -c -k --sequesterRsrc --keepParent AxiumForge.app "dist/AxiumForge-macOS-${VERSION}.zip"
 
       - name: Package Windows executable
