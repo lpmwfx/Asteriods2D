@@ -114,7 +114,12 @@ PY
           set -euo pipefail
           curl -L "${{ matrix.love_url }}" -o love.zip
           unzip -q love.zip
-          mv love.app AxiumForge.app
+          APP_DIR="$(find . -maxdepth 1 -type d -name '*ove.app' | head -n 1)"
+          if [[ -z "${APP_DIR}" ]]; then
+            echo "love.app not found after unzip" >&2
+            exit 1
+          fi
+          mv "${APP_DIR}" AxiumForge.app
           mkdir -p AxiumForge.app/Contents/Resources
           cp "${LOVE_FILE}" AxiumForge.app/Contents/Resources/game.love
           if [ -x /usr/libexec/PlistBuddy ]; then
