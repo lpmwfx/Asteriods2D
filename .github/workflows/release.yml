@@ -48,10 +48,55 @@ jobs:
       - name: Build .love package
         shell: bash
         run: |
-          mkdir -p dist
-          zip -9 -r "${LOVE_FILE}" . \
-            -x ".git*" "dist/*" "screenshots/*" "*.love" \
-               "docs/background/*" ".github/*" "*.psd" "*.xcf"
+          python - <<'PY'
+import os
+import zipfile
+import fnmatch
+
+love_file = os.environ["LOVE_FILE"]
+os.makedirs(os.path.dirname(love_file), exist_ok=True)
+
+exclude_dirs = {".git", "dist", "screenshots", ".github"}
+exclude_paths = ["docs/background"]
+exclude_globs = ["*.love", "*.psd", "*.xcf"]
+
+def should_skip(rel_path, fname):
+    # Normalize to forward slashes
+    rel_norm = rel_path.replace("\\", "/")
+    # Skip excluded directories
+    top = rel_norm.split("/")[0] if rel_norm else fname.split("/")[0]
+    if top in exclude_dirs:
+        return True
+    # Skip explicit paths
+    for p in exclude_paths:
+        if rel_norm == p or rel_norm.startswith(p + "/"):
+            return True
+        combined = f"{rel_norm}/{fname}" if rel_norm else fname
+        if combined == p or combined.startswith(p + "/"):
+            return True
+    # Skip glob matches
+    for pattern in exclude_globs:
+        if fnmatch.fnmatch(fname, pattern):
+            return True
+    return False
+
+with zipfile.ZipFile(love_file, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+    for root, dirs, files in os.walk("."):
+        rel_root = os.path.relpath(root, ".")
+        if rel_root == ".":
+            rel_root = ""
+        # Prune excluded directories from traversal
+        dirs[:] = [
+            d for d in dirs
+            if not should_skip(os.path.join(rel_root, d), d)
+        ]
+        for fname in files:
+            if should_skip(rel_root, fname):
+                continue
+            full_path = os.path.join(root, fname)
+            rel_path = os.path.join(rel_root, fname) if rel_root else fname
+            zf.write(full_path, rel_path.replace("\\", "/"))
+PY
 
       - name: Package Linux AppImage
         if: matrix.platform == 'linux'
@@ -81,14 +126,15 @@ jobs:
           $ErrorActionPreference = "Stop"
           Invoke-WebRequest "${{ matrix.love_url }}" -OutFile "love.zip"
           Expand-Archive "love.zip" -DestinationPath "love"
-          New-Item -ItemType Directory -Path "dist/windows" | Out-Null
+          $zipName = "AxiumForge-windows-$env:VERSION.zip"
+          New-Item -ItemType Directory -Path "dist/windows" -Force | Out-Null
           Copy-Item $env:LOVE_FILE -Destination "dist/windows/"
           Copy-Item "love/love-11.5-win64/*" -Destination "dist/windows/" -Recurse
           Push-Location dist/windows
-          cmd /c "copy /b love.exe+AxiumForge-${env:VERSION}.love AxiumForge.exe"
+          cmd /c "copy /b love.exe+AxiumForge-$env:VERSION.love AxiumForge.exe"
           Remove-Item love.exe
-          Remove-Item "AxiumForge-${env:VERSION}.love"
-          Compress-Archive -Path * -DestinationPath "..\AxiumForge-windows-${env:VERSION}.zip"
+          Remove-Item "AxiumForge-$env:VERSION.love"
+          Compress-Archive -Path * -DestinationPath "..\$zipName"
           Pop-Location
 
       - name: Upload artifacts
