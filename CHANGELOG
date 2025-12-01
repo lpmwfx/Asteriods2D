@@ -53,9 +53,15 @@ All notable changes to this project will be documented in this file.
 #### Fixed
 - **AxShot Screenshot System**:
   - Screenshots now save to project directory (not LÖVE save dir)
-  - Absolute path resolution for `screenshots/` folder
+  - Uses `pwd` command for correct working directory detection
   - LÖVE 11.x API compatibility (`captureScreenshot` callback)
   - Directory creation using OS commands
+  - FileData encoding with io.open() for absolute path writing
+  - **Programmatic Screenshot Support**:
+    - CLI argument: `love . --screenshot` or `love . -s`
+    - Auto-capture after 2 second delay
+    - Auto-quit after screenshot taken
+    - Works for both user (F12) and AI/automation (--screenshot)
 
 #### Technical
 - Resolution-independent rendering throughout
