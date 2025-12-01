@@ -64,7 +64,11 @@ function love.update(dt)
     -- Update background animation
     background:update(dt)
 
-    -- Update UI elements
+    -- Update UI elements with game state data
+    ui:setScore(gameState.score)
+    ui:setLives(gameState.lives)
+    ui:setMeteorCount(#gameState.meteors)
+    ui:setRailgunCooldown(gameState.railgun.cooldown)
     ui:update(dt)
 end
 

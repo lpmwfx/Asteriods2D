@@ -4,6 +4,78 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### [2025-12-01] - Core Gameplay Implementation (Sections 5-8)
+
+#### Added
+- **Ship Entity** (`src/entities/ship.lua`):
+  - Box2D polygon body (triangle shape) with physics
+  - Rotation controls (left/right arrows)
+  - Forward thrust with visual flame effect (up arrow)
+  - Screen wrapping
+  - SDF rendering with glow effect
+  - Max speed limiting
+
+- **Meteor Entity** (`src/entities/meteor.lua`):
+  - SDF composite rendering from primitives data
+  - Box2D circular collision body
+  - Mass calculation from SDF volume and density
+  - Damage accumulation system
+  - TSDF fragmentation when damage threshold exceeded
+  - Fragments inherit scaled SDF data and physics properties
+  - Random angular velocity for rotation
+
+- **Meteor Spawning System**:
+  - Spawns meteors in ring outside screen
+  - Random positions and velocities aimed at center
+  - Configurable spawn rate and maximum count
+  - Random meteor type selection (small, medium, large)
+
+- **Railgun Weapon System** (`src/entities/railgun.lua`):
+  - Instant-hit raycast collision detection
+  - Penetrates through all objects in path
+  - Cooldown timer between shots (1 second)
+  - Applies damage to all hit meteors
+  - Visual beam effects with fade-out animation
+  - Impact flash effects at hit points
+  - Space bar to fire
+
+#### Updated
+- **game_state.lua**: Integrated Ship, Meteor, and Railgun entities
+- **main.lua**: UI now receives game state data (score, lives, meteor count, railgun cooldown)
+- **ui.lua**: Displays real-time railgun cooldown bar
+
+#### Gameplay Features
+- Fully playable game loop:
+  1. Press SPACE to start game
+  2. Arrow keys to rotate and thrust ship
+  3. SPACE to fire railgun at meteors
+  4. Meteors fragment into smaller pieces when hit
+  5. Fragments continue with realistic physics
+- Animated background with orbiting planets
+- Protected zone visualization (center circle)
+- Real-time HUD with all game stats
+
+#### Technical
+- All entities use SDF rendering (no bitmap assets)
+- Box2D physics for all objects
+- Data-driven meteor definitions with 6 variants
+- TSDF fragmentation with configurable parameters
+- Penetrating raycast weapon system
+
+#### Testing
+- Full gameplay loop tested successfully
+- No errors or crashes
+- Ship controls responsive
+- Meteors spawn and move correctly
+- Railgun hits and fragments meteors as expected
+- UI updates correctly
+
+#### Next Steps
+- Implement protected zone penalty system
+- Add ship-meteor collision detection
+- Polish and tuning (spawn rates, difficulty)
+- Add game over conditions
+
 ### [2025-12-01] - Initial Project Structure
 
 #### Added
@@ -14,7 +86,7 @@ All notable changes to this project will be documented in this file.
   - `src/data/` - Data definitions and settings
 
 - **Configuration Files**:
-  - `conf.lua` - LÖVE 11.5 configuration with 1280x720 window
+  - `conf.lua` - Lï¿½VE 11.5 configuration with 1280x720 window
   - `main.lua` - Main game loop with love.load(), love.update(dt), love.draw()
 
 - **Core Systems** (`src/core/`):
@@ -32,10 +104,10 @@ All notable changes to this project will be documented in this file.
   - `ui.lua` - HUD system (score, lives, meteor count, railgun cooldown, FPS)
 
 - **Reference Documentation**:
-  - `RAG` file with LÖVE 2D documentation links for future reference
+  - `RAG` file with Lï¿½VE 2D documentation links for future reference
 
 #### Technical Details
-- LÖVE version: 11.5
+- Lï¿½VE version: 11.5
 - Physics: Box2D with zero gravity (space environment)
 - Graphics: Pure SDF rendering (no bitmap assets)
 - Meter size: 64 pixels per meter

@@ -76,57 +76,57 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [X] Test SDF rendering med simple former
 
 ### 5. Player Ship Entity (src/entities/ship.lua)
-- [ ] Opret ship modul med:
-  - [ ] Box2D polygon body (trekant/kile form)
-  - [ ] Rotation control (left/right keys)
-  - [ ] Forward thrust (up key)
-  - [ ] Position, velocity, angle tracking
-  - [ ] ship:update(dt) - H�ndter input og physics
-  - [ ] ship:draw() - Tegn ship som SDF polygon/lines med glow
-- [ ] Tune ship physics (mass, friction, angular damping)
+- [X] Opret ship modul med:
+  - [X] Box2D polygon body (trekant/kile form)
+  - [X] Rotation control (left/right keys)
+  - [X] Forward thrust (up key)
+  - [X] Position, velocity, angle tracking
+  - [X] ship:update(dt) - H�ndter input og physics
+  - [X] ship:draw() - Tegn ship som SDF polygon/lines med glow
+- [X] Tune ship physics (mass, friction, angular damping)
 
 ### 6. Meteor Entity (src/entities/meteor.lua)
-- [ ] Opret meteor modul med:
-  - [ ] Load SDF definition fra data/sdf_meteors.lua
-  - [ ] Box2D circle body (simpel collider for MVP)
-  - [ ] Velocity og angular velocity
-  - [ ] meteor:new(type, x, y, vx, vy) - Constructor
-  - [ ] meteor:update(dt) - Physics update
-  - [ ] meteor:draw() - Tegn fra SDF primitives med glow effect
-  - [ ] meteor:applyDamage(power, x, y, nx, ny) - Damage handler
+- [X] Opret meteor modul med:
+  - [X] Load SDF definition fra data/sdf_meteors.lua
+  - [X] Box2D circle body (simpel collider for MVP)
+  - [X] Velocity og angular velocity
+  - [X] meteor:new(type, x, y, vx, vy) - Constructor
+  - [X] meteor:update(dt) - Physics update
+  - [X] meteor:draw() - Tegn fra SDF primitives med glow effect
+  - [X] meteor:applyDamage(power, x, y, nx, ny) - Damage handler
 
 ### 7. Meteor Spawning System
-- [ ] Spawn manager i game_state.lua eller separat modul:
-  - [ ] Spawn meteorer i ring udenfor sk�rmen (configurable radius)
-  - [ ] Random spawn positions p� ring
-  - [ ] Random velocity rettet mod indre zone (med variation)
-  - [ ] Spawn interval/rate (start med 2-3 sekunder)
-  - [ ] Max antal aktive meteorer (start med 5-10)
+- [X] Spawn manager i game_state.lua eller separat modul:
+  - [X] Spawn meteorer i ring udenfor sk�rmen (configurable radius)
+  - [X] Random spawn positions p� ring
+  - [X] Random velocity rettet mod indre zone (med variation)
+  - [X] Spawn interval/rate (start med 2-3 sekunder)
+  - [X] Max antal aktive meteorer (start med 5-10)
 
 ### 8. Railgun System (src/entities/railgun.lua)
-- [ ] Opret railgun modul:
-  - [ ] world:rayCast() implementation fra ship position/angle
-  - [ ] Cooldown timer (1-2 sekunder)
-  - [ ] rayCallback() - H�ndter collision med meteorer
-  - [ ] railgun:fire(world, x, y, angle) - Affyr fra ship
-  - [ ] railgun:update(dt) - Opdater cooldown
-  - [ ] railgun:canFire() - Check cooldown status
+- [X] Opret railgun modul:
+  - [X] world:rayCast() implementation fra ship position/angle
+  - [X] Cooldown timer (1-2 sekunder)
+  - [X] rayCallback() - H�ndter collision med meteorer
+  - [X] railgun:fire(world, x, y, angle) - Affyr fra ship
+  - [X] railgun:update(dt) - Opdater cooldown
+  - [X] railgun:canFire() - Check cooldown status
 
 ### 9. Railgun Visual Effects (src/render/)
-- [ ] Railgun beam rendering:
-  - [ ] Tegn instant beam fra ship til raycast max distance
-  - [ ] Multi-layer glow (tynd core + bred outer glow)
-  - [ ] Beam fade-out animation (0.1-0.2 sekunder)
-  - [ ] Impact flash ved collision punkt
+- [X] Railgun beam rendering:
+  - [X] Tegn instant beam fra ship til raycast max distance
+  - [X] Multi-layer glow (tynd core + bred outer glow)
+  - [X] Beam fade-out animation (0.1-0.2 sekunder)
+  - [X] Impact flash ved collision punkt
 - [ ] Screen shake effekt (simpel camera offset)
 
 ### 10. TSDF Fragmentation (MVP version)
-- [ ] Simpel fragmentering i meteor.lua:
-  - [ ] Ved applyDamage() over threshold � spawn 2-3 mindre meteorer
-  - [ ] Skal�r original SDF ned (0.5x - 0.7x radius)
-  - [ ] Giv fragmenter velocity v�k fra impact normal
-  - [ ] Minimum st�rrelse (stop fragmentation under radius ~15)
-  - [ ] Destru�r original meteor
+- [X] Simpel fragmentering i meteor.lua:
+  - [X] Ved applyDamage() over threshold � spawn 2-3 mindre meteorer
+  - [X] Skal�r original SDF ned (0.5x - 0.7x radius)
+  - [X] Giv fragmenter velocity v�k fra impact normal
+  - [X] Minimum st�rrelse (stop fragmentation under radius ~15)
+  - [X] Destru�r original meteor
 
 ### 11. Background System (src/render/background.lua)
 - [ ] Opret background modul:
@@ -202,9 +202,27 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 ## Nuv�rende Status
 - [X] Projektdokumentation komplet
 - [X] CLAUDE.md oprettet
-- [X] Sektion 1-4 implementeret og testet (Projektstruktur, Core Systems, Data Layer, SDF Rendering)
+- [X] Sektion 1-10 implementeret og testet (Core MVP gameplay færdig!)
 - [X] Projektet kører fejlfrit med LÖVE 11.5
-- [ ] Entities (Ship, Meteor, Railgun) ikke implementeret endnu
+- [X] Fully playable game loop med Ship, Meteors, Railgun og Fragmentering
+
+## Gameplay Status (MVP ALMOST COMPLETE!)
+- [X] Ship controls (rotation, thrust, screen wrapping)
+- [X] Meteor spawning system
+- [X] Railgun weapon med penetration
+- [X] TSDF fragmentation af meteorer
+- [X] SDF rendering for alle entities
+- [X] UI med score, lives, meteor count, railgun cooldown
+- [X] Animated background med solar system
+- [ ] Protected zone penalty system
+- [ ] Ship-meteor collision detection
+- [ ] Game over conditions
 
 ## N�ste Skridt
-Start med sektion 5-10 for at implementere entities og gameplay systemer.
+Start med sektion 11-16 for at færdiggøre MVP:
+- Background system forbedringer (perspektiv)
+- Protected zone collision detection
+- UI polish
+- Game loop integration finalisering
+- Tuning og balancing
+- Documentation

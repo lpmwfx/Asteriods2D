@@ -9,6 +9,12 @@
     - Meteor spawning coordination
 ]]
 
+local Ship = require("src.entities.ship")
+local Meteor = require("src.entities.meteor")
+local Railgun = require("src.entities.railgun")
+local MeteorData = require("src.data.sdf_meteors")
+local Settings = require("src.data.settings")
+
 local GameState = {}
 GameState.__index = GameState
 
@@ -34,10 +40,10 @@ function GameState.new(physics, input)
     self.lives = 3
     self.meteorsDestroyed = 0
 
-    -- Entities (will be populated when entities are implemented)
+    -- Entities
     self.ship = nil
     self.meteors = {}
-    self.railgunBeams = {}
+    self.railgun = Railgun.new()
 
     -- Spawning system
     self.spawnTimer = 0
@@ -74,7 +80,7 @@ end
 function GameState:updatePlaying(dt)
     -- Update ship
     if self.ship then
-        self.ship:update(dt)
+        self.ship:update(dt, self.input)
     end
 
     -- Update meteors
@@ -88,14 +94,14 @@ function GameState:updatePlaying(dt)
         end
     end
 
-    -- Update railgun beams (visual effects)
-    for i = #self.railgunBeams, 1, -1 do
-        local beam = self.railgunBeams[i]
-        beam:update(dt)
+    -- Update railgun
+    self.railgun:update(dt)
 
-        if beam.finished then
-            table.remove(self.railgunBeams, i)
-        end
+    -- Handle railgun firing input
+    if self.input:isPressed("space") and self.ship then
+        local x, y = self.ship:getPosition()
+        local angle = self.ship:getAngle()
+        self.railgun:fire(self.physics:getWorld(), x, y, angle, self.meteors)
     end
 
     -- Meteor spawning
@@ -125,8 +131,35 @@ function GameState:updateSpawning(dt)
 end
 
 function GameState:spawnMeteor()
-    -- Placeholder: actual spawning will be implemented with Meteor entity
-    print("Spawning meteor (not implemented yet)")
+    -- Spawn meteor in ring outside screen
+    local spawnRadius = Settings.spawning.spawnRadius
+    local angle = math.random() * math.pi * 2
+
+    -- Spawn position on ring
+    local spawnX = Settings.screen.centerX + math.cos(angle) * spawnRadius
+    local spawnY = Settings.screen.centerY + math.sin(angle) * spawnRadius
+
+    -- Velocity towards center with some randomness
+    local targetAngle = angle + math.pi + (math.random() - 0.5) * 0.8  -- Add variation
+    local speed = math.random() * (Settings.spawning.maxVelocity - Settings.spawning.minVelocity) + Settings.spawning.minVelocity
+
+    local vx = math.cos(targetAngle) * speed
+    local vy = math.sin(targetAngle) * speed
+
+    -- Get random meteor type
+    local meteorType = MeteorData.getRandom()
+
+    -- Create meteor
+    local meteor = Meteor.new(
+        self.physics:getWorld(),
+        meteorType,
+        spawnX, spawnY,
+        vx, vy
+    )
+
+    table.insert(self.meteors, meteor)
+
+    print("Spawned meteor: " .. meteorType.id .. " (count: " .. #self.meteors .. ")")
 end
 
 function GameState:draw()
@@ -169,8 +202,35 @@ function GameState:drawPlaying()
     end
 
     -- Draw railgun beams
-    for _, beam in ipairs(self.railgunBeams) do
-        beam:draw()
+    self:drawRailgunBeams()
+end
+
+function GameState:drawRailgunBeams()
+    local DrawSDF = require("src.render.draw_sdf")
+    local beamColor = Settings.visual.colors.railgun
+
+    for _, beam in ipairs(self.railgun:getBeams()) do
+        -- Draw beam with fade out
+        DrawSDF.drawLineSDF(
+            beam.startX, beam.startY,
+            beam.endX, beam.endY,
+            Settings.railgun.beamWidth,
+            beamColor,
+            Settings.railgun.beamGlow,
+            beam.alpha
+        )
+
+        -- Draw impact flashes at hit points
+        for _, hit in ipairs(beam.hits) do
+            local flashRadius = 10 * beam.alpha
+            DrawSDF.drawCircleSDF(
+                hit.hitX, hit.hitY,
+                flashRadius,
+                beamColor,
+                8,
+                beam.alpha * 0.8
+            )
+        end
     end
 end
 
@@ -226,7 +286,17 @@ function GameState:startGame()
     self.railgunBeams = {}
     self.spawnTimer = 0
 
-    -- TODO: Initialize ship and other entities
+    -- Initialize ship at center of screen
+    if self.ship then
+        self.ship:destroy()
+    end
+    self.ship = Ship.new(
+        self.physics:getWorld(),
+        Settings.screen.centerX,
+        Settings.screen.centerY
+    )
+
+    print("Ship initialized")
 end
 
 function GameState:togglePause()

@@ -22,7 +22,7 @@ Et moderne, stiliseret *Asteroids*‑inspireret spil, hvor al grafik bygges af *
 * Baggrund: Animeret solsystem i parallax.
 * Gameplay: Undgå meteorer, skyd med **railgun**, forhindre meteorer i at passere en indre beskyttet zone.
 * Fysik: Box2D i 2D.
-* Stil: "Glow vector look" – skarpe SDF‑kurver, rene lyskanter.
+* Stil: "Glow vector look" kombineret med **3D‑agtig, virkelighedsnær struktur** – meteorer og rumskib skal ligne fysiske objekter med volumen, overfladestruktur og lys/skygge.
 
 ---
 
@@ -114,16 +114,31 @@ Et moderne, stiliseret *Asteroids*‑inspireret spil, hvor al grafik bygges af *
 
 ## 5. Visuel stil
 
+### Overordnet
+
+* 2D‑rendering med **3D‑lignende lys og skygge**.
+* Brug SDF‑data til at udlede normals (eller pseudo‑normals) til simple lysberegninger, så objekter får volumen.
+
 ### Solsystem
 
 * SDF‑planeter i baggrundslag.
 * Langsom orbit og farvegradienter.
+* Diskret terminator (dag/nat‑grænse) via lysretning, så planeter ser kugleformede ud.
 
 ### Meteorer
 
 * Glow outlines, crater‑detaljer som små ekstra primitiver.
+* Overfladestruktur via støj (f.eks. flere overlappende SDF‑buler) for at give sten/metal‑look.
+* Pseudo‑3D shading: lysretning defineres globalt, og intensitet beregnes ud fra SDF‑gradient (eller approximativ vektor), så meteoren ligner en 3D‑klippe.
+
+### Rumskib
+
+* Består af flere SDF‑lag (krop, cockpit, paneler) med forskellig reflektivitet.
+* Lysglimt/highlights langs kanter, så det ligner et fysisk 3D‑objekt set skråt ovenfra.
 
 ### UI
+
+* Minimalistisk: score, liv/shields, antal meteorer.
 
 * Minimalistisk: score, liv/shields, antal meteorer.
 
@@ -191,7 +206,11 @@ AI‑coder skal levere:
 
 ---
 
-## 9. Outputkrav
+## 9. Billedreference
+
+Alle relevante referencebilleder til solsystem, meteorer, rumskib og generel 3D‑agtig realisme bliver vedlagt til AI‑coderen som bilag, så visuel stil, overfladestruktur og lysforståelse kan følges præcist.
+
+## 10. Outputkrav
 
 * Kørbart LÖVE projekt.
 * README.md med instruktioner.
