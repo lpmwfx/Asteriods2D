@@ -278,15 +278,17 @@ function GameState:drawRailgunBeams()
 end
 
 function GameState:drawProtectedZone()
-    local cx = love.graphics.getWidth() / 2
-    local cy = love.graphics.getHeight() / 2
+    -- Use virtual coordinates (settings define screen center in virtual space)
+    local Settings = require("src.data.settings")
+    local cx = Settings.screen.centerX
+    local cy = Settings.screen.centerY
 
-    -- Draw circle outline
-    love.graphics.setColor(0.3, 0.5, 1.0, 0.3)
+    -- Draw circle outline (very subtle)
+    love.graphics.setColor(0.3, 0.5, 1.0, 0.15)  -- Reduced alpha from 0.3 to 0.15
     love.graphics.circle("line", cx, cy, self.protectedZoneRadius)
 
-    -- Draw glow effect
-    love.graphics.setColor(0.3, 0.5, 1.0, 0.1)
+    -- Draw glow effect (barely visible)
+    love.graphics.setColor(0.3, 0.5, 1.0, 0.05)  -- Reduced alpha from 0.1 to 0.05
     love.graphics.circle("line", cx, cy, self.protectedZoneRadius + 2)
     love.graphics.circle("line", cx, cy, self.protectedZoneRadius - 2)
 end

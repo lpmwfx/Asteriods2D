@@ -174,11 +174,14 @@ function love.keypressed(key, scancode, isrepeat)
         gameState:togglePause()
     end
 
-    -- Fullscreen toggle (F11) - FASE 2
-    if key == "f11" then
+    -- Fullscreen toggle - FASE 2
+    -- F11 (may be captured by macOS) or F key
+    if key == "f11" or key == "f" then
+        print("[Fullscreen] Toggle requested with key: " .. key)
         Display:toggleFullscreen()
         Viewport:updateDimensions()
-        print("Fullscreen: " .. tostring(Display.isFullscreen))
+        print("[Fullscreen] New state: " .. tostring(Display.isFullscreen))
+        print("[Fullscreen] Window size: " .. Display.currentWidth .. "x" .. Display.currentHeight)
     end
 end
 
