@@ -1,0 +1,18 @@
+# RAG - Reference Links
+
+## LÖVE 2D Documentation
+
+### Configuration
+- [Config Files - LOVE Official](https://www.love2d.org/wiki/Config_Files)
+- [Getting Started - LOVE](https://love2d.org/wiki/Getting_Started)
+- [LÖVE 11.5 Reference](https://love2d-community.github.io/love-api/)
+
+### Physics (Box2D)
+- [Tutorial: Physics - LOVE Official](https://love2d.org/wiki/Tutorial:Physics)
+- [Tutorial: Physics Collision Callbacks](https://love2d.org/wiki/Tutorial:PhysicsCollisionCallbacks)
+- [love.physics API Reference](https://love2d.org/wiki/love.physics)
+- [Implementing Physics Mechanics In Love2d Games](https://peerdh.com/blogs/programming-insights/implementing-physics-mechanics-in-love2d-games)
+
+### Examples and Tutorials
+- [Love2D Template Example](https://github.com/camchenry/Love2D-Template/blob/master/conf.lua)
+- [Getting Started with Love2D - Max Zsol](https://maxzsol.com/getting-started-with-love2d-and-vs-code-a-beginners-guide/)

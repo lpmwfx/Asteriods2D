@@ -260,3 +260,4 @@ These features are documented but should NOT be implemented in the MVP:
 - Reference images in `assets/references/` show authentic SDF/TSDF objects to guide implementation of meteor shapes and visual style
 - The RAG, TODO, and CHANGELOG files exist but are currently empty
 - No actual game code has been written yet - this is a greenfield project
+- @RAG er til opslags referencer med links for at spare opslagsgentagelser, @CHANGELOG er til ændringer og @TODO er opgaverne sørg for 1. Lav opager fra TODO med forståelse 2. slå op på net og i docs ved tvivl og tilføj det til RAG 3. Nåe et sæt opgaver er færdige afkrydser du i TODO og opdateer CHANFELOG og laver et Git COMMIT og PUSH - start på næste TODO opgave sæt.

@@ -1,0 +1,56 @@
+# CHANGELOG - AxiumForge SDF Asteroids
+
+All notable changes to this project will be documented in this file.
+
+## [Unreleased]
+
+### [2025-12-01] - Initial Project Structure
+
+#### Added
+- Project directory structure created:
+  - `src/core/` - Core game systems
+  - `src/entities/` - Game entities (ship, meteors, railgun)
+  - `src/render/` - Rendering systems
+  - `src/data/` - Data definitions and settings
+
+- **Configuration Files**:
+  - `conf.lua` - LÖVE 11.5 configuration with 1280x720 window
+  - `main.lua` - Main game loop with love.load(), love.update(dt), love.draw()
+
+- **Core Systems** (`src/core/`):
+  - `physics.lua` - Box2D physics world with zero gravity for space simulation
+  - `input.lua` - Centralized keyboard input handling
+  - `game_state.lua` - Game state management (menu, playing, paused, game_over)
+
+- **Data Layer** (`src/data/`):
+  - `settings.lua` - All game constants and parameters (data-driven architecture)
+  - `sdf_meteors.lua` - SDF meteor definitions with 6 meteor variants (small, medium, large)
+
+- **Rendering Systems** (`src/render/`):
+  - `draw_sdf.lua` - SDF rendering functions (circles, composites, lines, polygons with glow)
+  - `background.lua` - Animated solar system background with orbiting planets
+  - `ui.lua` - HUD system (score, lives, meteor count, railgun cooldown, FPS)
+
+- **Reference Documentation**:
+  - `RAG` file with LÖVE 2D documentation links for future reference
+
+#### Technical Details
+- LÖVE version: 11.5
+- Physics: Box2D with zero gravity (space environment)
+- Graphics: Pure SDF rendering (no bitmap assets)
+- Meter size: 64 pixels per meter
+
+#### Testing
+- Project successfully runs with `love .` command
+- No errors in initialization
+- Menu state displays correctly with background animation
+
+#### Notes
+- All code is in English as per project standards
+- Documentation is in Danish
+- Data-driven architecture: no hardcoded values in game logic
+- Modular design with clear separation of concerns
+
+#### Next Steps
+- TODO section 1-4 completed (Project setup, Core Systems, Data Layer, SDF Rendering)
+- Ready to implement entities (Ship, Meteor, Railgun) in next iteration

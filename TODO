@@ -1,32 +1,79 @@
 # TODO - AxiumForge SDF Asteroids
 
-## FASE 1: MVP - Første Spilbare Iteration
+## Projekt Information
 
-### 1. Projektstruktur og LÖVE Setup
-- [ ] Opret mappestruktur (src/core, src/entities, src/render, src/data)
-- [ ] Opret conf.lua med LÖVE konfiguration (window size, title, version)
-- [ ] Opret main.lua med grundlæggende love.load(), love.update(dt), love.draw()
-- [ ] Test at projektet kører med `love .`
+**Navn:** AxiumForge â€“ SDF Asteroids
+**Engine:** LÃ–VE 2D (Lua)
+**Type:** Moderne Asteroids-inspireret arcade shooter
+
+### Projektets Intention
+
+Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). Ingen bitmap assets (PNG/JPG) bruges - alt tegnes proceduralt fra parametre.
+
+### Kernekoncept
+
+**Visuel Stil:**
+- "Glow vector look" med skarpe SDF-kurver og rene lyskanter
+- Animeret solsystem i parallax baggrund
+- Alt er data-drevet - ingen hardcodede vÃ¦rdier
+
+**Gameplay:**
+- UndgÃ¥ meteorer i rummet
+- Skyd med instant-hit railgun der penetrerer gennem objekter
+- Beskyt en indre zone - meteorer der krydser den giver straf
+- Meteorer fragmenterer realistisk nÃ¥r de rammes (TSDF-baseret destruktion)
+
+**Fysik:**
+- Box2D til kollision, ricochet og bevÃ¦gelse
+- Meteorer har masse og densitet baseret pÃ¥ deres SDF volumen
+- Fragmenter arver fysiske egenskaber fra parent meteor
+
+**Teknisk Unikhed:**
+- SDF rendering direkte via love.graphics
+- TSDF-baseret fragmentering (plan-cuts gennem distance fields)
+- Data-drevet arkitektur hvor meteorer defineres som primitive shapes (cirkler, ellipser) med CSG operationer
+- Samme SDF data kan senere bruges i LÃ–VR (3D/VR port)
+
+### Reference Materiale
+
+`assets/references/` indeholder billeder af autentiske SDF/TSDF objekter - disse skal bruges som visuel reference for hvordan meteorer og effekter skal se ud.
+
+### Udviklings Princip
+
+- **ModulÃ¦r arkitektur** - rene filer, klart adskilte ansvar
+- **Data-drevet** - al logik lÃ¦ser fra data-filer
+- **MVP fÃ¸rst** - fÃ¥ en spilbar iteration fÃ¸r advanced features
+- **Engelsk kode** - selv om dokumentation er dansk
+
+---
+
+## FASE 1: MVP - FÃ¸rste Spilbare Iteration
+
+### 1. Projektstruktur og LÃ–VE Setup
+- [X] Opret mappestruktur (src/core, src/entities, src/render, src/data)
+- [X] Opret conf.lua med Lï¿½VE konfiguration (window size, title, version)
+- [X] Opret main.lua med grundlï¿½ggende love.load(), love.update(dt), love.draw()
+- [X] Test at projektet kï¿½rer med `love .`
 
 ### 2. Core Systems (src/core/)
-- [ ] game_state.lua - State management (menu, playing, paused, game_over)
-- [ ] input.lua - Input handling (keyboard mappings for rotation, thrust, fire)
-- [ ] physics.lua - Box2D world setup med korrekte units og gravity=0
+- [X] game_state.lua - State management (menu, playing, paused, game_over)
+- [X] input.lua - Input handling (keyboard mappings for rotation, thrust, fire)
+- [X] physics.lua - Box2D world setup med korrekte units og gravity=0
 
 ### 3. Data Layer (src/data/)
-- [ ] settings.lua - Game konstanter (screen bounds, spawn radius, railgun cooldown)
-- [ ] sdf_meteors.lua - Definer minimum 3 meteor typer med SDF primitives:
-  - [ ] Small meteor (radius ~20-30)
-  - [ ] Medium meteor (radius ~40-50)
-  - [ ] Large meteor (radius ~60-80)
-  - [ ] Inkluder density, fracture_threshold for hver type
+- [X] settings.lua - Game konstanter (screen bounds, spawn radius, railgun cooldown)
+- [X] sdf_meteors.lua - Definer minimum 3 meteor typer med SDF primitives:
+  - [X] Small meteor (radius ~20-30)
+  - [X] Medium meteor (radius ~40-50)
+  - [X] Large meteor (radius ~60-80)
+  - [X] Inkluder density, fracture_threshold for hver type
 
 ### 4. SDF Rendering System (src/render/)
-- [ ] draw_sdf.lua - Basis SDF rendering funktioner:
-  - [ ] drawCircleSDF(x, y, radius, color, glowSize) - SDF circle med glow
-  - [ ] drawCompositeSDF(primitives) - Tegn multiple primitives som én form
-  - [ ] drawLine(x1, y1, x2, y2, thickness, glow) - Til railgun beam
-- [ ] Test SDF rendering med simple former
+- [X] draw_sdf.lua - Basis SDF rendering funktioner:
+  - [X] drawCircleSDF(x, y, radius, color, glowSize) - SDF circle med glow
+  - [X] drawCompositeSDF(primitives) - Tegn multiple primitives som ï¿½n form
+  - [X] drawLine(x1, y1, x2, y2, thickness, glow) - Til railgun beam
+- [X] Test SDF rendering med simple former
 
 ### 5. Player Ship Entity (src/entities/ship.lua)
 - [ ] Opret ship modul med:
@@ -34,7 +81,7 @@
   - [ ] Rotation control (left/right keys)
   - [ ] Forward thrust (up key)
   - [ ] Position, velocity, angle tracking
-  - [ ] ship:update(dt) - Håndter input og physics
+  - [ ] ship:update(dt) - Hï¿½ndter input og physics
   - [ ] ship:draw() - Tegn ship som SDF polygon/lines med glow
 - [ ] Tune ship physics (mass, friction, angular damping)
 
@@ -50,8 +97,8 @@
 
 ### 7. Meteor Spawning System
 - [ ] Spawn manager i game_state.lua eller separat modul:
-  - [ ] Spawn meteorer i ring udenfor skærmen (configurable radius)
-  - [ ] Random spawn positions på ring
+  - [ ] Spawn meteorer i ring udenfor skï¿½rmen (configurable radius)
+  - [ ] Random spawn positions pï¿½ ring
   - [ ] Random velocity rettet mod indre zone (med variation)
   - [ ] Spawn interval/rate (start med 2-3 sekunder)
   - [ ] Max antal aktive meteorer (start med 5-10)
@@ -60,7 +107,7 @@
 - [ ] Opret railgun modul:
   - [ ] world:rayCast() implementation fra ship position/angle
   - [ ] Cooldown timer (1-2 sekunder)
-  - [ ] rayCallback() - Håndter collision med meteorer
+  - [ ] rayCallback() - Hï¿½ndter collision med meteorer
   - [ ] railgun:fire(world, x, y, angle) - Affyr fra ship
   - [ ] railgun:update(dt) - Opdater cooldown
   - [ ] railgun:canFire() - Check cooldown status
@@ -75,39 +122,39 @@
 
 ### 10. TSDF Fragmentation (MVP version)
 - [ ] Simpel fragmentering i meteor.lua:
-  - [ ] Ved applyDamage() over threshold ’ spawn 2-3 mindre meteorer
-  - [ ] Skalér original SDF ned (0.5x - 0.7x radius)
-  - [ ] Giv fragmenter velocity væk fra impact normal
-  - [ ] Minimum størrelse (stop fragmentation under radius ~15)
-  - [ ] Destruér original meteor
+  - [ ] Ved applyDamage() over threshold ï¿½ spawn 2-3 mindre meteorer
+  - [ ] Skalï¿½r original SDF ned (0.5x - 0.7x radius)
+  - [ ] Giv fragmenter velocity vï¿½k fra impact normal
+  - [ ] Minimum stï¿½rrelse (stop fragmentation under radius ~15)
+  - [ ] Destruï¿½r original meteor
 
 ### 11. Background System (src/render/background.lua)
 - [ ] Opret background modul:
   - [ ] Tegn central sol (stor SDF circle med multi-layer glow)
-  - [ ] 2-3 planeter på forskellige orbits
+  - [ ] 2-3 planeter pï¿½ forskellige orbits
   - [ ] Langsom orbital animation (rotation_speed per planet)
-  - [ ] Parallax effekt (baggrund bevæger sig lidt med ship)
+  - [ ] Parallax effekt (baggrund bevï¿½ger sig lidt med ship)
 - [ ] Farvegradienter for planeter
 
 ### 12. Protected Zone
 - [ ] Tegn indre beskyttet zone (SDF circle outline, ikke filled)
-- [ ] Collision detection: meteor krydser zone ’ trigger penalty
-- [ ] Penalty system (reducér liv/shields eller instant game over for MVP)
+- [ ] Collision detection: meteor krydser zone ï¿½ trigger penalty
+- [ ] Penalty system (reducï¿½r liv/shields eller instant game over for MVP)
 
 ### 13. UI System (src/render/ui.lua)
 - [ ] Minimal HUD:
-  - [ ] Score display (øverst)
+  - [ ] Score display (ï¿½verst)
   - [ ] Lives/Shields indicator
   - [ ] Active meteors count
   - [ ] Railgun cooldown indicator (visual bar eller timer)
-- [ ] Game Over skærm
+- [ ] Game Over skï¿½rm
 - [ ] Simple pause menu
 
 ### 14. Game Loop Integration
-- [ ] Integrér alle systemer i main.lua:
+- [ ] Integrï¿½r alle systemer i main.lua:
   - [ ] Initialize ship, physics, background
-  - [ ] Update loop: input ’ physics ’ meteors ’ railgun ’ spawning
-  - [ ] Draw loop: background ’ meteors ’ ship ’ railgun effects ’ UI
+  - [ ] Update loop: input ï¿½ physics ï¿½ meteors ï¿½ railgun ï¿½ spawning
+  - [ ] Draw loop: background ï¿½ meteors ï¿½ ship ï¿½ railgun effects ï¿½ UI
   - [ ] Collision callbacks mellem ship og meteorer
 
 ### 15. Polish & Tuning
@@ -116,22 +163,22 @@
   - [ ] Ship thrust/rotation speed
   - [ ] Railgun power/cooldown
   - [ ] Protected zone size
-- [ ] Test fragmentering med forskellige meteor størrelser
+- [ ] Test fragmentering med forskellige meteor stï¿½rrelser
 - [ ] Verificer SDF glow effekter ser korrekte ud (sammenlign med assets/references)
 
 ### 16. Documentation
-- [ ] Opdatér CHANGELOG med implementerede features
+- [ ] Opdatï¿½r CHANGELOG med implementerede features
 - [ ] Opret README.md med:
-  - [ ] Hvordan man kører spillet
+  - [ ] Hvordan man kï¿½rer spillet
   - [ ] Controls (arrow keys, space)
   - [ ] Gameplay beskrivelse
   - [ ] Teknisk overview (SDF/TSDF, Box2D)
-- [ ] Opdatér TODO.md med erfaringer og næste iteration
+- [ ] Opdatï¿½r TODO.md med erfaringer og nï¿½ste iteration
 
 ## FASE 2: Post-MVP Forbedringer (Ikke nu)
 - [ ] Fuld TSDF mass calculation for fragmenter
 - [ ] Meteor-meteor collision med chain reactions
-- [ ] Procedural noise på meteor shapes (FBM/Perlin)
+- [ ] Procedural noise pï¿½ meteor shapes (FBM/Perlin)
 - [ ] Advanced railgun effects (lens flare, particle dust)
 - [ ] Sound system (railgun, impacts, explosions)
 - [ ] Dynamic difficulty scaling
@@ -140,7 +187,7 @@
 
 ## FASE 3: Advanced Features (Fremtid)
 - [ ] GLSL shaders for raymarch rendering
-- [ ] Port til LÖVR (3D/VR version)
+- [ ] Port til Lï¿½VR (3D/VR version)
 - [ ] JDA/JDW data format implementation
 - [ ] Advanced CSG operations
 - [ ] Lore system
@@ -148,10 +195,12 @@
 
 ---
 
-## Nuværende Status
+## Nuvï¿½rende Status
 - [X] Projektdokumentation komplet
 - [X] CLAUDE.md oprettet
-- [ ] Ingen kode implementeret endnu
+- [X] Sektion 1-4 implementeret og testet (Projektstruktur, Core Systems, Data Layer, SDF Rendering)
+- [X] Projektet kÃ¸rer fejlfrit med LÃ–VE 11.5
+- [ ] Entities (Ship, Meteor, Railgun) ikke implementeret endnu
 
-## Næste Skridt
-Start med sektion 1-4 for at få grundlæggende struktur på plads.
+## Nï¿½ste Skridt
+Start med sektion 5-10 for at implementere entities og gameplay systemer.
