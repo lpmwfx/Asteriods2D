@@ -42,8 +42,10 @@ jobs:
             SHORT_SHA="$(git rev-parse --short HEAD)"
             VERSION="main-${SHORT_SHA}"
           fi
+          APP_NAME="AsteroidDefence2D"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-          echo "LOVE_FILE=dist/AxiumForge-${VERSION}.love" >> "$GITHUB_ENV"
+          echo "APP_NAME=$APP_NAME" >> "$GITHUB_ENV"
+          echo "LOVE_FILE=dist/${APP_NAME}-${VERSION}.love" >> "$GITHUB_ENV"
 
       - name: Build .love package
         shell: bash
@@ -55,8 +57,8 @@ jobs:
         run: |
           curl -L "${{ matrix.love_url }}" -o love.AppImage
           chmod +x love.AppImage
-          cat love.AppImage "${LOVE_FILE}" > "dist/AxiumForge-linux-${VERSION}.AppImage"
-          chmod +x "dist/AxiumForge-linux-${VERSION}.AppImage"
+          cat love.AppImage "${LOVE_FILE}" > "dist/${APP_NAME}-linux-${VERSION}.AppImage"
+          chmod +x "dist/${APP_NAME}-linux-${VERSION}.AppImage"
 
       - name: Package macOS app
         if: matrix.platform == 'macos'
@@ -70,14 +72,14 @@ jobs:
             echo "love.app not found after unzip" >&2
             exit 1
           fi
-          mv "${APP_DIR}" AxiumForge.app
-          mkdir -p AxiumForge.app/Contents/Resources
-          cp "${LOVE_FILE}" AxiumForge.app/Contents/Resources/game.love
+          mv "${APP_DIR}" "${APP_NAME}.app"
+          mkdir -p "${APP_NAME}.app/Contents/Resources"
+          cp "${LOVE_FILE}" "${APP_NAME}.app/Contents/Resources/game.love"
           if [ -x /usr/libexec/PlistBuddy ]; then
-            /usr/libexec/PlistBuddy -c "Set :CFBundleName AxiumForge" AxiumForge.app/Contents/Info.plist || true
-            /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName AxiumForge" AxiumForge.app/Contents/Info.plist || true
+            /usr/libexec/PlistBuddy -c "Set :CFBundleName ${APP_NAME}" "${APP_NAME}.app/Contents/Info.plist" || true
+            /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName ${APP_NAME}" "${APP_NAME}.app/Contents/Info.plist" || true
           fi
-          ditto -c -k --sequesterRsrc --keepParent AxiumForge.app "dist/AxiumForge-macOS-${VERSION}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "${APP_NAME}.app" "dist/${APP_NAME}-macOS-${VERSION}.zip"
 
       - name: Package Windows executable
         if: matrix.platform == 'windows'
@@ -86,14 +88,14 @@ jobs:
           $ErrorActionPreference = "Stop"
           Invoke-WebRequest "${{ matrix.love_url }}" -OutFile "love.zip"
           Expand-Archive "love.zip" -DestinationPath "love"
-          $zipName = "AxiumForge-windows-$env:VERSION.zip"
+          $zipName = "$env:APP_NAME-windows-$env:VERSION.zip"
           New-Item -ItemType Directory -Path "dist/windows" -Force | Out-Null
           Copy-Item $env:LOVE_FILE -Destination "dist/windows/"
           Copy-Item "love/love-11.5-win64/*" -Destination "dist/windows/" -Recurse
           Push-Location dist/windows
-          cmd /c "copy /b love.exe+AxiumForge-$env:VERSION.love AxiumForge.exe"
+          cmd /c "copy /b love.exe+$env:APP_NAME-$env:VERSION.love $env:APP_NAME.exe"
           Remove-Item love.exe
-          Remove-Item "AxiumForge-$env:VERSION.love"
+          Remove-Item "$env:APP_NAME-$env:VERSION.love"
           Compress-Archive -Path * -DestinationPath "..\$zipName"
           Pop-Location
 
