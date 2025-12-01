@@ -1,5 +1,7 @@
 # AxiumForge - SDF Asteroids
 
+<img src="assets/logo/tb-logo-200.png" alt="AxiumForge logo" width="200" height="200">
+
 A modern, stylized Asteroids-inspired arcade shooter where **all graphics are generated mathematically from SDF/TSDF data** (Signed Distance Fields / Truncated Signed Distance Fields). No bitmap assets—everything is drawn procedurally.
 
 ![Current build (AxShot 2025-12-01)](assets/history/axforge_2025-12-01_15-52-47.png)
@@ -64,7 +66,9 @@ love AxiumForge.love
 
 - Tag a version (`v0.x.y`) and push the tag to trigger the GitHub Actions workflow in `.github/workflows/release.yml`.
 - Outputs: `AxiumForge-<version>.love`, Windows fused ZIP (`AxiumForge-windows-<version>.zip`), macOS app ZIP (`AxiumForge-macOS-<version>.zip`), and Linux AppImage (`AxiumForge-linux-<version>.AppImage`).
-- Windows build is a single `.exe` with DLLs; macOS ships as `AxiumForge.app`; Linux AppImage is a fused runtime (chmod +x).
+- Windows: unzip and run `AxiumForge.exe` (allow SmartScreen).
+- macOS: unzip, drag `AxiumForge.app` to Applications; first launch may need right-click → Open because the app is unsigned.
+- Linux: `chmod +x AxiumForge-linux-<version>.AppImage && ./AxiumForge-linux-<version>.AppImage`; if Fuse2 is missing, install `libfuse2` (e.g., `sudo apt install libfuse2`) or extract with `--appimage-extract` and run `squashfs-root/AppRun`.
 - Artifacts are attached automatically to the GitHub release created from the tag.
 - Web build is optional and manual (see `docs/RELEASE.md` for love.js guidance).
 
@@ -177,7 +181,7 @@ See [TODO](TODO) for the detailed plan:
 
 ## 📝 License
 
-This is an experimental project. See project files for details.
+Released under the MIT License. See `LICENSE` for details.
 
 ## 🤖 Development
 
@@ -186,6 +190,10 @@ This project is built with assistance from Claude Code (Anthropic).
 ---
 
 **Enjoy the game! Destroy some meteors! 🚀💥**
+
+## ⚠️ Disclaimer
+
+Use this software at your own risk. The contributors and copyright holders provide it without warranties or guarantees of any kind.
 
 Kindly \
 **Twisted Brain** \

@@ -12,6 +12,13 @@ This project ships releases from Git tags (`v*`) via GitHub Actions. The `releas
    - `AxiumForge-linux-<version>.AppImage` (fused runtime)
 4. The release is published on GitHub with all artifacts attached.
 
+## Release Notes Template (include in GitHub Release body)
+- **Downloads:** Linux AppImage (`AxiumForge-linux-<ver>.AppImage`), Windows ZIP (`AxiumForge-windows-<ver>.zip`), macOS ZIP (`AxiumForge-macOS-<ver>.zip`), and `.love`.
+- **Windows:** unzip, run `AxiumForge.exe` (allow SmartScreen).
+- **macOS:** unzip, move `AxiumForge.app` to Applications; first launch may need right-click → Open (unsigned).
+- **Linux:** `chmod +x AxiumForge-linux-<ver>.AppImage && ./AxiumForge-linux-<ver>.AppImage`. If Fuse2 is missing, install `libfuse2` (e.g., `sudo apt install libfuse2`) or run `--appimage-extract` then `./squashfs-root/AppRun`.
+- **.love:** run with an installed LÖVE 11.5 runtime (`love AxiumForge-<ver>.love`).
+
 ## Local Packaging (optional)
 - Build .love:  
   `zip -9 -r build/AxiumForge-<version>.love . -x ".git*" "build/*" "screenshots/*" "*.love" ".github/*"`
