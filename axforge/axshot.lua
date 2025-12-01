@@ -102,8 +102,18 @@ end
 local function captureLove(filepath)
     -- LÖVE 11.x uses captureScreenshot with callback
     love.graphics.captureScreenshot(function(imageData)
-        imageData:encode("png", filepath)
-        print("[AxShot] Screenshot saved: " .. filepath)
+        -- Encode to FileData (in memory, not to disk yet)
+        local fileData = imageData:encode("png")
+
+        -- Write to actual filesystem using io.open (not love.filesystem)
+        local file = io.open(filepath, "wb")
+        if file then
+            file:write(fileData:getString())
+            file:close()
+            print("[AxShot] Screenshot saved: " .. filepath)
+        else
+            print("[AxShot] Failed to save screenshot: " .. filepath)
+        end
     end)
 end
 
