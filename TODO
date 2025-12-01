@@ -141,9 +141,9 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
   - [ ] Giv dybdefølelse med scaling og layering
 
 ### 12. Protected Zone
-- [ ] Tegn indre beskyttet zone (SDF circle outline, ikke filled)
-- [ ] Collision detection: meteor krydser zone � trigger penalty
-- [ ] Penalty system (reduc�r liv/shields eller instant game over for MVP)
+- [X] Tegn indre beskyttet zone (SDF circle outline, ikke filled)
+- [X] Collision detection: meteor krydser zone � trigger penalty
+- [X] Penalty system (reduc�r liv/shields eller instant game over for MVP)
 
 ### 13. UI System (src/render/ui.lua)
 - [ ] Minimal HUD:
@@ -155,11 +155,11 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [ ] Simple pause menu
 
 ### 14. Game Loop Integration
-- [ ] Integr�r alle systemer i main.lua:
-  - [ ] Initialize ship, physics, background
-  - [ ] Update loop: input � physics � meteors � railgun � spawning
-  - [ ] Draw loop: background � meteors � ship � railgun effects � UI
-  - [ ] Collision callbacks mellem ship og meteorer
+- [X] Integr�r alle systemer i main.lua:
+  - [X] Initialize ship, physics, background
+  - [X] Update loop: input � physics � meteors � railgun � spawning
+  - [X] Draw loop: background � meteors � ship � railgun effects � UI
+  - [X] Collision callbacks mellem ship og meteorer
 
 ### 15. Polish & Tuning
 - [ ] Tune game balance:
@@ -171,23 +171,56 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [ ] Verificer SDF glow effekter ser korrekte ud (sammenlign med assets/references)
 
 ### 16. Documentation
-- [ ] Opdat�r CHANGELOG med implementerede features
-- [ ] Opret README.md med:
-  - [ ] Hvordan man k�rer spillet
-  - [ ] Controls (arrow keys, space)
-  - [ ] Gameplay beskrivelse
-  - [ ] Teknisk overview (SDF/TSDF, Box2D)
-- [ ] Opdat�r TODO.md med erfaringer og n�ste iteration
+- [X] Opdat�r CHANGELOG med implementerede features
+- [X] Opret README.md med:
+  - [X] Hvordan man k�rer spillet
+  - [X] Controls (arrow keys, space)
+  - [X] Gameplay beskrivelse
+  - [X] Teknisk overview (SDF/TSDF, Box2D)
+- [X] Opdat�r TODO.md med erfaringer og n�ste iteration
 
-## FASE 2: Post-MVP Forbedringer (Ikke nu)
+## FASE 2: Visual Enhancement (Fra project.md sektion 5)
+**Mål: 2D-rendering med 3D-lignende lys og skygge**
+
+### Pseudo-3D Shading System
+- [ ] Implementer SDF normal/gradient calculation
+- [ ] Global lysretning (directional light)
+- [ ] Pseudo-3D shading for meteorer:
+  - [ ] Lysintensitet baseret på SDF-gradient
+  - [ ] Simulate volumen og dybde
+  - [ ] Shading så meteorer ligner 3D-klipper
+- [ ] Overfladestruktur på meteorer:
+  - [ ] Overlappende SDF-buler for sten/metal-look
+  - [ ] Procedural noise (FBM/Perlin) på surface
+  - [ ] Crater-detaljer som små ekstra primitives
+
+### Avanceret Solar System Rendering
+- [ ] Planeter med diskret terminator (dag/nat-grænse):
+  - [ ] Lysretning defineret globalt
+  - [ ] Shading så planeter ser kugleformede ud
+  - [ ] Gradient transition mellem lys/skygge side
+- [ ] Perspektiv korrekt rendering (20-30 grader fra oven)
+
+### Avanceret Ship Rendering
+- [ ] Multi-layer SDF ship (krop, cockpit, paneler)
+- [ ] Forskellig reflektivitet per layer
+- [ ] Lysglimt/highlights langs kanter
+- [ ] Simulate metallisk overflade
+
+### Rendering System Upgrade
+- [ ] Normal map approximation fra SDF data
+- [ ] Simple lysberegninger (diffuse + specular)
+- [ ] Ambient occlusion approximation
+
+## FASE 2.5: Post-MVP Gameplay Forbedringer
 - [ ] Fuld TSDF mass calculation for fragmenter
 - [ ] Meteor-meteor collision med chain reactions
-- [ ] Procedural noise p� meteor shapes (FBM/Perlin)
 - [ ] Advanced railgun effects (lens flare, particle dust)
 - [ ] Sound system (railgun, impacts, explosions)
 - [ ] Dynamic difficulty scaling
 - [ ] Powerups system
 - [ ] Highscore tracking
+- [ ] Screen shake effekt (simpel camera offset)
 
 ## FASE 3: Advanced Features (Fremtid)
 - [ ] GLSL shaders for raymarch rendering
@@ -206,7 +239,7 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [X] Projektet kører fejlfrit med LÖVE 11.5
 - [X] Fully playable game loop med Ship, Meteors, Railgun og Fragmentering
 
-## Gameplay Status (MVP ALMOST COMPLETE!)
+## Gameplay Status (🎉 MVP COMPLETE! 🎉)
 - [X] Ship controls (rotation, thrust, screen wrapping)
 - [X] Meteor spawning system
 - [X] Railgun weapon med penetration
@@ -214,9 +247,12 @@ Dette er et eksperimentelt spilprojekt hvor **al grafik genereres matematisk fra
 - [X] SDF rendering for alle entities
 - [X] UI med score, lives, meteor count, railgun cooldown
 - [X] Animated background med solar system
-- [ ] Protected zone penalty system
-- [ ] Ship-meteor collision detection
-- [ ] Game over conditions
+- [X] Protected zone penalty system
+- [X] Ship-meteor collision detection
+- [X] Game over conditions
+- [X] Ship respawn system
+- [X] Score tracking
+- [X] README.md komplet
 
 ## N�ste Skridt
 Start med sektion 11-16 for at færdiggøre MVP:

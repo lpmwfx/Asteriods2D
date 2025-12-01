@@ -114,6 +114,79 @@ Et moderne, stiliseret *Asteroids*‑inspireret spil, hvor al grafik bygges af *
 
 ## 5. Visuel stil
 
+## 5A. Præcis scenebeskrivelse (final 2025 SDF vision)
+
+Hele spillets visuelle opsætning skal gengive en **2025-version af Asteroids** med:
+
+* **SDF‑renderet rumscene**,
+* **semi‑realistisk 3D‑agtig overfladebehandling**,
+* **fysisk lys** og
+* **ikonisk, genkendelig solsystem-stemning**.
+
+### Kamera / Viewport
+
+* Kameraet ser scenen **15–20° skråt ovenfra**, som om spilleren befinder sig i et større rumskib i kredsløb om Jorden.
+* Viewporten centreres omkring *spilområdet*, mens baggrunden er tonet ned for ikke at stjæle fokus.
+
+### Baggrundslag (dybder og parallax)
+
+Scenen består af disse lag (fra fjernest til nærmest):
+
+1. **Stjernefelt (dybest lag)**
+
+   * SDF-genererede stjerner i tre skalalag: tiny (mikrostjerner), medium og få store.
+   * Parallaxvirkning: næsten ingen bevægelse yderst → giver dybde.
+   * Svag galaktisk tåge (støjgradient), kølige farver.
+
+2. **Fjernt solsystem (ikonisk komposition)**
+
+   * **Solen er placeret lavt i baggrunden**, lidt mod venstre eller højre, afhængigt af balance.
+   * Solen har **SDF-baseret hvirvlende overflade** (turbulent støj + radial emission), tonet ned i intensitet så gameplay dominerer.
+   * 2–3 synlige planeter i karakteristiske farvemønstre:
+
+     * Jupiters båndede atmosfære (billboard-lignende SDF-mønster).
+     * Saturns ringe (SDF‑ring + transparent alpha‑falloff).
+     * Mars-lignende rødlig planet.
+   * Planeterne er betydeligt større end meteorerne, men **placeret langt væk**, og tonet ned (30–40% lysstyrke) for ikke at fange øjet for meget.
+   * Langsom orbital animation (meget lav hastighed).
+
+3. **Jorden (midter‑baggrund, vigtig reference)**
+
+   * Jorden ses som stor kugleformet SDF-planet nederst i billedet, ofte kun øvre 20–30% af dens kugle synlig.
+   * Overfladen bruger SDF‑teksturerede kontinenter + skyer (procedural noise overlay).
+   * Terminator-linje (dag/nat) giver realistisk 3D-kuglefornemmelse.
+   * Jorden er tonet ned, men skal være tydeligt genkendelig.
+
+### Midterlag: Spilområdet
+
+Dette er der hvor gameplay foregår.
+
+* **Meteorer** med høj detaljegrad: SDF‑overfladebuler, revner, kratere, støjlag.
+* **3D‑agtig shading**:
+
+  * Solens lysretning castes på meteor-overfladen via SDF-gradient.
+  * Rim‑light bagfra, diskret glow rundt om konturen.
+* Fragmentering skal se fysisk ud: stykker skyder af i let varierende retninger.
+
+### Forgrund / skib
+
+* Rumskibet tegnes som flere SDF‑lag:
+
+  * Skrog, paneler, cockpit, lys.
+  * Hårde highlights → metal look.
+  * Små udbrændinger ved thrust.
+* Railgun-skud er en **lysstribe** eller instant‑beam, med let dispersion og fade.
+
+### Toning / farvebalancing
+
+* Baggrund = 30–50% lysstyrke.
+* Spilobjekter = fuld lysstyrke + skarpe konturer.
+* Resultat: Baggrunden føles realistisk og episk, men distraherer ikke.
+
+---
+
+## 5. Visuel stil
+
 ### Overordnet
 
 * 2D‑rendering med **3D‑lignende lys og skygge**.
@@ -121,6 +194,16 @@ Et moderne, stiliseret *Asteroids*‑inspireret spil, hvor al grafik bygges af *
 
 ### Solsystem
 
+* Baggrund består af et **realistisk solsystem set fra et rumskib**, vinklet **15–20° skråt ovenfra** (perspektivillusion i 2D).
+* SDF‑planeter i flere parallax‑lag (forgrund → mellemgrund → baggrund).
+* Planeter har diskret terminator (dag/nat‑grænse) så de fremstår som ægte 3D‑kugler.
+* Solen giver global lysretning, som påvirker meteorer og skib (pseudo‑3D shading).
+
+### Stjernebaggrund
+
+* Realistisk dyb stjernehimmel som i referencebillederne.
+* Flere lag af SDF‑genererede stjerner (tiny circles / noise field) med langsom parallax.
+* Kan suppleres med svag galaktisk tåge (procedural gradient/noise) for rumsdybde.
 * SDF‑planeter i baggrundslag.
 * Langsom orbit og farvegradienter.
 * Diskret terminator (dag/nat‑grænse) via lysretning, så planeter ser kugleformede ud.

@@ -53,9 +53,36 @@ function GameState.new(physics, input)
     -- Protected zone
     self.protectedZoneRadius = 150
 
+    -- Register collision callbacks
+    self:setupCollisionCallbacks()
+
     print("GameState initialized in state: " .. self.state)
 
     return self
+end
+
+function GameState:setupCollisionCallbacks()
+    -- Ship collision with meteors
+    self.physics:registerCollisionCallback("ship", function(shipData, otherData, contact)
+        if otherData and otherData.type == "meteor" then
+            -- Ship hit meteor - take damage
+            if shipData.entity and shipData.entity.alive then
+                print("Ship collided with meteor!")
+                shipData.entity:takeDamage()
+                self:loseLife()
+            end
+        end
+    end)
+
+    -- Meteor collision with ship (reverse direction)
+    self.physics:registerCollisionCallback("meteor", function(meteorData, otherData, contact)
+        if otherData and otherData.type == "ship" then
+            -- Meteor hit ship - destroy meteor
+            if meteorData.entity and not meteorData.entity.destroyed then
+                meteorData.entity:destroy()
+            end
+        end
+    end)
 end
 
 function GameState:update(dt)
@@ -88,9 +115,16 @@ function GameState:updatePlaying(dt)
         local meteor = self.meteors[i]
         meteor:update(dt)
 
+        -- Check if meteor crossed protected zone
+        if not meteor.destroyed then
+            self:checkProtectedZone(meteor)
+        end
+
         -- Remove destroyed meteors
         if meteor.destroyed then
             table.remove(self.meteors, i)
+            self.meteorsDestroyed = self.meteorsDestroyed + 1
+            self.score = self.score + 10  -- Points for destroying meteor
         end
     end
 
@@ -276,6 +310,31 @@ function GameState:drawGameOverOverlay()
     )
 end
 
+function GameState:checkProtectedZone(meteor)
+    -- Check if meteor is inside protected zone
+    local mx, my = meteor:getPosition()
+    local cx = Settings.screen.centerX
+    local cy = Settings.screen.centerY
+
+    local distance = math.sqrt((mx - cx)^2 + (my - cy)^2)
+
+    -- Check if meteor crossed into protected zone
+    if distance < self.protectedZoneRadius then
+        -- Penalty based on settings
+        if Settings.protectedZone.penaltyType == "instant" then
+            -- Instant game over
+            print("Meteor breached protected zone! Game Over!")
+            self:gameOver()
+        else
+            -- Lose lives
+            self:loseLife()
+        end
+
+        -- Destroy the meteor that crossed
+        meteor:destroy()
+    end
+end
+
 function GameState:startGame()
     print("Starting game...")
     self.state = States.PLAYING
@@ -321,6 +380,30 @@ end
 function GameState:loseLife()
     self.lives = self.lives - 1
     print("Life lost! Remaining: " .. self.lives)
+
+    if self.lives > 0 then
+        -- Respawn ship
+        self:respawnShip()
+    else
+        -- Game over
+        self:gameOver()
+    end
+end
+
+function GameState:respawnShip()
+    if self.ship then
+        self.ship:destroy()
+    end
+
+    -- Respawn at center with brief invulnerability would be nice
+    -- For MVP, just respawn at center
+    self.ship = Ship.new(
+        self.physics:getWorld(),
+        Settings.screen.centerX,
+        Settings.screen.centerY
+    )
+
+    print("Ship respawned!")
 end
 
 return GameState

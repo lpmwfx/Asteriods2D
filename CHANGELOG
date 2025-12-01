@@ -4,6 +4,99 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### [2025-12-01] - MVP COMPLETE! (Sections 11-16)
+
+#### Added
+- **Protected Zone System**:
+  - Collision detection for meteors crossing inner zone
+  - Configurable penalty (instant game over or lose life)
+  - Distance-based detection from screen center
+  - Visual warning when breached
+
+- **Ship-Meteor Collision Detection**:
+  - Box2D collision callbacks registered in physics system
+  - Ship takes damage and loses life on meteor impact
+  - Meteor destroyed on collision with ship
+  - Ship respawn system after losing life
+
+- **Game Over System**:
+  - Triggered when lives reach zero
+  - Displays final score and meteors destroyed
+  - Press SPACE to restart game
+  - Clean state reset on restart
+
+- **Ship Respawn**:
+  - Respawns at center after losing life
+  - Maintains remaining lives count
+  - Full physics reset
+
+- **Score System**:
+  - +10 points per meteor destroyed
+  - Score tracked and displayed in UI
+  - Score persists until game over
+  - Displayed in game over screen
+
+- **README.md**:
+  - Complete installation instructions
+  - Control scheme documentation
+  - Gameplay features overview
+  - Technical architecture explanation
+  - Project structure documentation
+  - Development status and roadmap
+
+#### Updated
+- **TODO**: Added FASE 2 with advanced visual features from project.md
+- **TODO**: All MVP sections (1-16) marked as complete
+- **game_state.lua**: Complete collision and game over logic
+- **UI**: Score display integrated with game state
+
+#### Gameplay Features (All MVP Requirements Met!)
+- ✅ Full game loop from menu to game over
+- ✅ 3 lives with respawn system
+- ✅ Protected zone defense mechanic
+- ✅ Score tracking and display
+- ✅ Complete collision detection
+- ✅ Game over with restart functionality
+- ✅ All controls responsive and functional
+
+#### Technical Achievements
+- Pure SDF rendering (zero bitmap assets)
+- Box2D collision callbacks for all interactions
+- Data-driven architecture throughout
+- Modular, maintainable codebase
+- Complete MVP scope from project.md delivered
+
+#### Documentation
+- README.md with complete usage guide
+- TODO updated with FASE 2 advanced features
+- CHANGELOG tracking all implementations
+- Code comments throughout
+
+#### Testing
+- Full gameplay loop tested
+- Collision detection verified
+- Game over and respawn tested
+- Score system validated
+- No errors or crashes
+
+#### Project Status: MVP COMPLETE ✅
+All requirements from project.md Section 7 (MVP scope) delivered:
+1. ✅ Grundloop i LÖVE
+2. ✅ Rumskib med rotation + thrust
+3. ✅ Meteor-spawn i ring
+4. ✅ Railgun-skud + collision
+5. ✅ SDF-datafil for meteorer
+6. ✅ Baggrund med sol/planeter
+7. ✅ README + TODO
+
+#### Next Phase
+FASE 2: Visual Enhancement
+- 3D-lignende shading system
+- Pseudo-3D rendering with normals
+- Advanced solar system with terminators
+- Multi-layer ship rendering
+- See TODO for complete roadmap
+
 ### [2025-12-01] - Core Gameplay Implementation (Sections 5-8)
 
 #### Added
