@@ -1,0 +1,157 @@
+# TODO - AxiumForge SDF Asteroids
+
+## FASE 1: MVP - Første Spilbare Iteration
+
+### 1. Projektstruktur og LÖVE Setup
+- [ ] Opret mappestruktur (src/core, src/entities, src/render, src/data)
+- [ ] Opret conf.lua med LÖVE konfiguration (window size, title, version)
+- [ ] Opret main.lua med grundlæggende love.load(), love.update(dt), love.draw()
+- [ ] Test at projektet kører med `love .`
+
+### 2. Core Systems (src/core/)
+- [ ] game_state.lua - State management (menu, playing, paused, game_over)
+- [ ] input.lua - Input handling (keyboard mappings for rotation, thrust, fire)
+- [ ] physics.lua - Box2D world setup med korrekte units og gravity=0
+
+### 3. Data Layer (src/data/)
+- [ ] settings.lua - Game konstanter (screen bounds, spawn radius, railgun cooldown)
+- [ ] sdf_meteors.lua - Definer minimum 3 meteor typer med SDF primitives:
+  - [ ] Small meteor (radius ~20-30)
+  - [ ] Medium meteor (radius ~40-50)
+  - [ ] Large meteor (radius ~60-80)
+  - [ ] Inkluder density, fracture_threshold for hver type
+
+### 4. SDF Rendering System (src/render/)
+- [ ] draw_sdf.lua - Basis SDF rendering funktioner:
+  - [ ] drawCircleSDF(x, y, radius, color, glowSize) - SDF circle med glow
+  - [ ] drawCompositeSDF(primitives) - Tegn multiple primitives som én form
+  - [ ] drawLine(x1, y1, x2, y2, thickness, glow) - Til railgun beam
+- [ ] Test SDF rendering med simple former
+
+### 5. Player Ship Entity (src/entities/ship.lua)
+- [ ] Opret ship modul med:
+  - [ ] Box2D polygon body (trekant/kile form)
+  - [ ] Rotation control (left/right keys)
+  - [ ] Forward thrust (up key)
+  - [ ] Position, velocity, angle tracking
+  - [ ] ship:update(dt) - Håndter input og physics
+  - [ ] ship:draw() - Tegn ship som SDF polygon/lines med glow
+- [ ] Tune ship physics (mass, friction, angular damping)
+
+### 6. Meteor Entity (src/entities/meteor.lua)
+- [ ] Opret meteor modul med:
+  - [ ] Load SDF definition fra data/sdf_meteors.lua
+  - [ ] Box2D circle body (simpel collider for MVP)
+  - [ ] Velocity og angular velocity
+  - [ ] meteor:new(type, x, y, vx, vy) - Constructor
+  - [ ] meteor:update(dt) - Physics update
+  - [ ] meteor:draw() - Tegn fra SDF primitives med glow effect
+  - [ ] meteor:applyDamage(power, x, y, nx, ny) - Damage handler
+
+### 7. Meteor Spawning System
+- [ ] Spawn manager i game_state.lua eller separat modul:
+  - [ ] Spawn meteorer i ring udenfor skærmen (configurable radius)
+  - [ ] Random spawn positions på ring
+  - [ ] Random velocity rettet mod indre zone (med variation)
+  - [ ] Spawn interval/rate (start med 2-3 sekunder)
+  - [ ] Max antal aktive meteorer (start med 5-10)
+
+### 8. Railgun System (src/entities/railgun.lua)
+- [ ] Opret railgun modul:
+  - [ ] world:rayCast() implementation fra ship position/angle
+  - [ ] Cooldown timer (1-2 sekunder)
+  - [ ] rayCallback() - Håndter collision med meteorer
+  - [ ] railgun:fire(world, x, y, angle) - Affyr fra ship
+  - [ ] railgun:update(dt) - Opdater cooldown
+  - [ ] railgun:canFire() - Check cooldown status
+
+### 9. Railgun Visual Effects (src/render/)
+- [ ] Railgun beam rendering:
+  - [ ] Tegn instant beam fra ship til raycast max distance
+  - [ ] Multi-layer glow (tynd core + bred outer glow)
+  - [ ] Beam fade-out animation (0.1-0.2 sekunder)
+  - [ ] Impact flash ved collision punkt
+- [ ] Screen shake effekt (simpel camera offset)
+
+### 10. TSDF Fragmentation (MVP version)
+- [ ] Simpel fragmentering i meteor.lua:
+  - [ ] Ved applyDamage() over threshold ’ spawn 2-3 mindre meteorer
+  - [ ] Skalér original SDF ned (0.5x - 0.7x radius)
+  - [ ] Giv fragmenter velocity væk fra impact normal
+  - [ ] Minimum størrelse (stop fragmentation under radius ~15)
+  - [ ] Destruér original meteor
+
+### 11. Background System (src/render/background.lua)
+- [ ] Opret background modul:
+  - [ ] Tegn central sol (stor SDF circle med multi-layer glow)
+  - [ ] 2-3 planeter på forskellige orbits
+  - [ ] Langsom orbital animation (rotation_speed per planet)
+  - [ ] Parallax effekt (baggrund bevæger sig lidt med ship)
+- [ ] Farvegradienter for planeter
+
+### 12. Protected Zone
+- [ ] Tegn indre beskyttet zone (SDF circle outline, ikke filled)
+- [ ] Collision detection: meteor krydser zone ’ trigger penalty
+- [ ] Penalty system (reducér liv/shields eller instant game over for MVP)
+
+### 13. UI System (src/render/ui.lua)
+- [ ] Minimal HUD:
+  - [ ] Score display (øverst)
+  - [ ] Lives/Shields indicator
+  - [ ] Active meteors count
+  - [ ] Railgun cooldown indicator (visual bar eller timer)
+- [ ] Game Over skærm
+- [ ] Simple pause menu
+
+### 14. Game Loop Integration
+- [ ] Integrér alle systemer i main.lua:
+  - [ ] Initialize ship, physics, background
+  - [ ] Update loop: input ’ physics ’ meteors ’ railgun ’ spawning
+  - [ ] Draw loop: background ’ meteors ’ ship ’ railgun effects ’ UI
+  - [ ] Collision callbacks mellem ship og meteorer
+
+### 15. Polish & Tuning
+- [ ] Tune game balance:
+  - [ ] Meteor spawn rate
+  - [ ] Ship thrust/rotation speed
+  - [ ] Railgun power/cooldown
+  - [ ] Protected zone size
+- [ ] Test fragmentering med forskellige meteor størrelser
+- [ ] Verificer SDF glow effekter ser korrekte ud (sammenlign med assets/references)
+
+### 16. Documentation
+- [ ] Opdatér CHANGELOG med implementerede features
+- [ ] Opret README.md med:
+  - [ ] Hvordan man kører spillet
+  - [ ] Controls (arrow keys, space)
+  - [ ] Gameplay beskrivelse
+  - [ ] Teknisk overview (SDF/TSDF, Box2D)
+- [ ] Opdatér TODO.md med erfaringer og næste iteration
+
+## FASE 2: Post-MVP Forbedringer (Ikke nu)
+- [ ] Fuld TSDF mass calculation for fragmenter
+- [ ] Meteor-meteor collision med chain reactions
+- [ ] Procedural noise på meteor shapes (FBM/Perlin)
+- [ ] Advanced railgun effects (lens flare, particle dust)
+- [ ] Sound system (railgun, impacts, explosions)
+- [ ] Dynamic difficulty scaling
+- [ ] Powerups system
+- [ ] Highscore tracking
+
+## FASE 3: Advanced Features (Fremtid)
+- [ ] GLSL shaders for raymarch rendering
+- [ ] Port til LÖVR (3D/VR version)
+- [ ] JDA/JDW data format implementation
+- [ ] Advanced CSG operations
+- [ ] Lore system
+- [ ] Level progression
+
+---
+
+## Nuværende Status
+- [X] Projektdokumentation komplet
+- [X] CLAUDE.md oprettet
+- [ ] Ingen kode implementeret endnu
+
+## Næste Skridt
+Start med sektion 1-4 for at få grundlæggende struktur på plads.
